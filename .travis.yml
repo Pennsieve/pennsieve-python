@@ -7,7 +7,7 @@ services:
 
 env:
   global:
-    - AGENT_VERSION="0.2.9"
+    - AGENT_VERSION="0.2.99"
 
 install:
   # Install Pennsieve CLI agent
