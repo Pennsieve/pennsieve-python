@@ -1,0 +1,10 @@
+**/__pycache__
+**/*.pyc
+**/*.egg-info
+**/*.egg/
+**/*.swp
+
+.git/
+.gitignore
+
+docs/

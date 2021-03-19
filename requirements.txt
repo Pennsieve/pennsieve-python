@@ -1,0 +1,13 @@
+pytz>=2016
+requests>=2.18
+protobuf>=3.2.0
+configparser>=3.5
+future>=0.15.0
+futures
+deprecated>=1.2.0
+semver>=2.8.0
+websocket-client>=0.50.0
+# CLI
+docopt>=0.6
+psutil>=5.4
+python-dateutil>=2.8.0

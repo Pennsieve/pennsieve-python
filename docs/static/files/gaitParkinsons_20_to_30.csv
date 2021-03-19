@@ -1,0 +1,11 @@
+,id,subject_type,speed_01,speed_10,reference,v_lastmodified_epoch,v_status,v_uuid,gender,age,height,weight,hoehnyahr,updrs,updrsm,tuag
+0,GaPt24,"Parkinsons Patient, Gait study",1.255,,PMID:16176368,1460000000.0,E,a101da76-087f-508f-828a-534e8ea2ac39,male,68,1.72,73.0,2.5,42.0,15.0,11.42
+1,GaPt25,"Parkinsons Patient, Gait study",1.128,,PMID:16176368,1460000000.0,E,3262c86a-8fb1-58e3-a775-390037e01710,male,81,1.76,90.0,2.5,31.0,18.0,15.22
+2,GaPt26,"Parkinsons Patient, Gait study",1.244,,PMID:16176368,1460000000.0,E,bba41392-f156-5711-8448-34bdc77d3de8,female,78,1.52,60.0,2.5,24.0,5.0,7.27
+3,GaPt27,"Parkinsons Patient, Gait study",1.423,,PMID:16176368,1460000000.0,E,47e0d47c-a884-5a6a-af80-1c8786131e3e,male,72,1.8,95.0,2.0,21.0,10.0,7.88
+4,GaPt28,"Parkinsons Patient, Gait study",0.987,,PMID:16176368,1460000000.0,E,468a9868-6f93-5329-ac50-0d3a95254a11,male,61,1.79,101.0,2.5,54.0,29.0,13.02
+5,GaPt29,"Parkinsons Patient, Gait study",1.092,,PMID:16176368,1460000000.0,E,0c7e8115-e496-5ab1-b723-2bfbedd0e2b7,male,68,1.63,80.0,2.0,27.0,16.0,10.16
+6,GaPt30,"Parkinsons Patient, Gait study",1.064,,PMID:16176368,1460000000.0,E,27656eaf-cfa0-5b31-8105-124d60e193f5,male,69,1.78,93.0,2.0,20.0,12.0,9.91
+7,GaPt31,"Parkinsons Patient, Gait study",0.876,,PMID:16176368,1460000000.0,E,0b5bf70a-6720-58c2-965b-cdc061f0d991,male,67,1.76,90.0,2.5,27.0,13.0,12.6
+8,GaPt32,"Parkinsons Patient, Gait study",1.242,,PMID:16176368,1460000000.0,E,e7c80672-61fa-599b-8748-8ee97a511edd,male,63,1.69,75.0,2.0,33.0,24.0,11.22
+9,GaPt33,"Parkinsons Patient, Gait study",0.825,,PMID:16176368,1460000000.0,E,c8c96583-df0b-5050-b2a3-efcc20f8d49e,male,63,1.86,80.0,2.5,42.0,31.0,11.97

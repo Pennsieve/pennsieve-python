@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package com.pennsieve;
+
+message CacheSegment {
+  string channelId = 1;
+
+  // Notes on index bytes: 
+  // - Correspond to UNSIGNED INT64
+  // - Values are in NANOseconds (this is atypical! NOT microseconds)
+  bytes  index = 2;
+
+  // data bytes align to FLOAT64
+  bytes  data  = 3;
+}
