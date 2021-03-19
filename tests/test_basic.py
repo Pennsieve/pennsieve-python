@@ -273,7 +273,6 @@ def test_timeout():
         get_test_client(max_request_time=0.00001)
 
 
-
 def test_client_host_overrides():
     host = "http://localhost"
     # fails authentication in Pennsieve.__init__
