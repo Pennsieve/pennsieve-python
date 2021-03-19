@@ -11,7 +11,6 @@ env:
 
 install:
   # Install Pennsieve CLI agent
-  blackfynn-agent_0.2.99_amd64.deb
   - wget "https://github.com/Pennsieve/agent/releases/download/${AGENT_VERSION}/blackfynn-agent_${AGENT_VERSION}_amd64.deb" -O agent.deb
   - sudo dpkg -i agent.deb
 
