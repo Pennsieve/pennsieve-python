@@ -23,7 +23,7 @@ install:
 
 
 script: pytest
-#after_success: bash <(curl -s https://codecov.io/bash)
+after_success: bash <(curl -s https://codecov.io/bash)
 
 jobs:
   include:
@@ -41,7 +41,6 @@ jobs:
 
     - stage: test Python 3.8
       python: 3.8
-      dist: xenial
 
     - stage: docs
       python: 3.6
