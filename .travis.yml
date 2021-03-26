@@ -23,7 +23,7 @@ install:
 
 
 script: pytest
-after_success: bash <(curl -s https://codecov.io/bash)
+#after_success: bash <(curl -s https://codecov.io/bash)
 
 jobs:
   include:
