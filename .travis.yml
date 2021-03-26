@@ -15,7 +15,7 @@ install:
   - sudo dpkg -i agent.deb
   - which pennsieve
   - openssl version -a
-  - sudo apt-get update openssl
+  - sudo apt-get update
   - sudo apt-get upgrade openssl
   - openssl version -a
   - pennsieve version
