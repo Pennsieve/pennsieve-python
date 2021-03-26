@@ -1,4 +1,5 @@
 dist: focal
+# Agent is built with 'ubuntu-latest', the distribution needs to be updated accordingly
 language: python
 cache: pip
 
