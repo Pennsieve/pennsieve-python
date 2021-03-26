@@ -1,4 +1,4 @@
-dist: bionic
+dist: trusty
 language: python
 cache: pip
 
@@ -13,7 +13,8 @@ install:
   # Install Pennsieve CLI agent
   - wget "https://github.com/Pennsieve/agent/releases/download/${AGENT_VERSION}/pennsieve_${AGENT_VERSION}_amd64.deb" -O agent.deb
   - sudo dpkg -i agent.deb
-
+  - pennsieve version
+  
   # Give agent permissions to home dir because of AP-548
   - sudo chown -R $USER:$USER $HOME/.pennsieve
 
