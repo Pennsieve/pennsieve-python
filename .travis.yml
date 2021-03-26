@@ -14,7 +14,7 @@ install:
   - wget "https://github.com/Pennsieve/agent/releases/download/${AGENT_VERSION}/pennsieve_${AGENT_VERSION}_amd64.deb" -O agent.deb
   - sudo dpkg -i agent.deb
   - which openssl
-  - 
+  - which pennsieve
   - pennsieve version
 
   # Give agent permissions to home dir because of AP-548
