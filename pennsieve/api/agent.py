@@ -25,7 +25,7 @@ except ModuleNotFoundError:
     )
 
 
-MINIMUM_AGENT_VERSION = semver.parse_version_info("0.2.2")
+MINIMUM_AGENT_VERSION = semver.parse_version_info("0.2.100")
 DEFAULT_LISTEN_PORT = 11235
 
 
@@ -35,13 +35,13 @@ class AgentError(Exception):
 
 def agent_cmd():
     if sys.platform == "darwin":
-        return "/usr/local/opt/pennsieve/bin/pennsieve_agent"
+        return "/usr/local/opt/pennsieve/bin/pennsieve"
 
     elif sys.platform.startswith("linux"):
-        return "/opt/pennsieve/bin/pennsieve_agent"
+        return "/opt/pennsieve/bin/pennsieve"
 
     elif sys.platform in ["win32", "cygwin"]:
-        return "C:/Program Files/Pennsieve/pennsieve_agent.exe"
+        return "C:/Program Files/Pennsieve/pennsieve.exe"
 
     raise AgentError("Platform {} is not supported".format(sys.platform))
 

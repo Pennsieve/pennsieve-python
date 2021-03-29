@@ -69,7 +69,6 @@ class Pennsieve(object):
             # sync changes
             pkg.update()
 
-
     Note:
         To initialize your ``Pennsieve`` client without passing any arguments,
         ensure that your ``PENNSIEVE_API_TOKEN`` and ``PENNSIEVE_API_SECRET`` environment variables

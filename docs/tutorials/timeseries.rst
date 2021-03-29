@@ -1,4 +1,4 @@
-.. _Pennsieve annotation file (.psannot): http://help.pennsieve.com/pennsieve-time-series-file-format-psts
+.. _Pennsieve annotation file (.bfannot): http://help.pennsieve.com/pennsieve-time-series-file-format-bfts
 
 Working with Timeseries Data
 ===============================
