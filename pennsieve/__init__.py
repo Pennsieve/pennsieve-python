@@ -27,4 +27,4 @@ from .models import (
 )
 
 __title__ = "pennsieve"
-__version__ = "5.0.2"
+__version__ = "6.0.0"

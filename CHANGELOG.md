@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 Documentation at <https://developer.pennsieve.io/python/>
 
+## 6.0.0
+
+### Breaking Changes
+- Change from Blackfynn to Pennsieve
+
 ## 5.0.2
 
 ### Fixed
