@@ -7,6 +7,7 @@ import base64
 import json
 
 import boto3
+import jwt
 import requests
 from requests import Session
 from requests.adapters import HTTPAdapter
@@ -44,7 +45,8 @@ class PennsieveRequest(object):
 
     def _handle_response(self, resp):
         self._logger.debug(u"resp = {}".format(resp))
-        self._logger.debug(u"resp.content = {}".format(resp.text))  # decoded unicode
+        self._logger.debug(u"resp.content = {}".format(
+            resp.text))  # decoded unicode
         if resp.status_code in [requests.codes.forbidden, requests.codes.unauthorized]:
             raise UnauthorizedException()
 
@@ -112,14 +114,15 @@ class ClientSession(object):
         # Ensures that `self._session` exists
         self.session
 
-        # parse response, set session
+        # Parse response, set session access token
         self.token = response["AuthenticationResult"]["AccessToken"]
         self.profile = User.from_dict(self._get("/user/"))
 
-        # TODO(jesse) Populate this with results from an organization endpoint
-        # 
-        # if organization is None:
-        #     organization = session_response.get("organization")
+        if organization is None:
+            organization_node_id_jwt = response["AuthenticationResult"]["IdToken"]
+            organization_node_id = jwt.decode(organization_node_id_jwt, options={
+                "verify_signature": False})["custom:organization_node_id"]
+            organization = organization_node_id
 
         self._set_org_context(organization)
 
@@ -151,7 +154,8 @@ class ClientSession(object):
         self._session.headers["X-ORGANIZATION-ID"] = organization_id
 
     def _set_auth(self, session_token):
-        self._session.headers["Authorization"] = "Bearer {}".format(session_token)
+        self._session.headers["Authorization"] = "Bearer {}".format(
+            session_token)
 
     @property
     def session(self):
