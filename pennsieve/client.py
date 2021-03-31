@@ -71,8 +71,8 @@ class Pennsieve(object):
 
     Note:
         To initialize your ``Pennsieve`` client without passing any arguments,
-        ensure that these environment variables are set: 
-        
+        ensure that these environment variables are set:
+
         - ``PENNSIEVE_API_ID``      (Client application ID for Cognito token pool)
         - ``PENNSIEVE_API_TOKEN``   (Username of your token pool credentials)
         - ``PENNSIEVE_API_SECRET``  (Password of your token pool credentials)

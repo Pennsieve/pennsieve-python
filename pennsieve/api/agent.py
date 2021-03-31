@@ -112,8 +112,7 @@ class AgentListener(object):
 
     def __enter__(self):
         check_port(self.port)
-        command = [agent_cmd(), "upload-status", "--listen",
-                   "--port", str(self.port)]
+        command = [agent_cmd(), "upload-status", "--listen", "--port", str(self.port)]
 
         self.devnull = open(os.devnull, "w")
         self.proc = subprocess.Popen(
@@ -166,8 +165,7 @@ def create_agent_socket(port):
         except socket.error as e:
             if e.errno == errno.ECONNREFUSED:  # ConnectionRefusedError for Python 3
                 sleep_time = 2 ** i
-                logger.debug(
-                    "Connection refused - sleeping for %s seconds", sleep_time)
+                logger.debug("Connection refused - sleeping for %s seconds", sleep_time)
                 sleep(sleep_time)
             else:
                 raise
@@ -228,8 +226,7 @@ def agent_upload(
         dataset_id = dataset.id
         package_id = destination.id
     else:
-        raise ValueError(
-            "Can only upload to a Dataset, Package, or Collection")
+        raise ValueError("Can only upload to a Dataset, Package, or Collection")
 
     with AgentListener(settings, DEFAULT_LISTEN_PORT):
         try:
@@ -289,7 +286,7 @@ def agent_upload(
 
 
 def remove_prefix(text, prefix):
-    return text[text.startswith(prefix) and len(prefix):]
+    return text[text.startswith(prefix) and len(prefix) :]
 
 
 class UploadManager(object):

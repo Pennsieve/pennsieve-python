@@ -45,8 +45,7 @@ class PennsieveRequest(object):
 
     def _handle_response(self, resp):
         self._logger.debug(u"resp = {}".format(resp))
-        self._logger.debug(u"resp.content = {}".format(
-            resp.text))  # decoded unicode
+        self._logger.debug(u"resp.content = {}".format(resp.text))  # decoded unicode
         if resp.status_code in [requests.codes.forbidden, requests.codes.unauthorized]:
             raise UnauthorizedException()
 
@@ -103,12 +102,9 @@ class ClientSession(object):
         # Make authentication request to AWS Cognito
         cognito_idp_client = boto3.client("cognito-idp")
         response = cognito_idp_client.initiate_auth(
-            AuthFlow='USER_PASSWORD_AUTH',
-            AuthParameters={
-                "USERNAME": self._api_token,
-                "PASSWORD": self._api_secret
-            },
-            ClientId=self._api_id
+            AuthFlow="USER_PASSWORD_AUTH",
+            AuthParameters={"USERNAME": self._api_token, "PASSWORD": self._api_secret},
+            ClientId=self._api_id,
         )
 
         # Ensures that `self._session` exists
@@ -120,8 +116,9 @@ class ClientSession(object):
 
         if organization is None:
             organization_node_id_jwt = response["AuthenticationResult"]["IdToken"]
-            organization_node_id = jwt.decode(organization_node_id_jwt, options={
-                "verify_signature": False})["custom:organization_node_id"]
+            organization_node_id = jwt.decode(
+                organization_node_id_jwt, options={"verify_signature": False}
+            )["custom:organization_node_id"]
             organization = organization_node_id
 
         self._set_org_context(organization)
@@ -154,8 +151,7 @@ class ClientSession(object):
         self._session.headers["X-ORGANIZATION-ID"] = organization_id
 
     def _set_auth(self, session_token):
-        self._session.headers["Authorization"] = "Bearer {}".format(
-            session_token)
+        self._session.headers["Authorization"] = "Bearer {}".format(session_token)
 
     @property
     def session(self):
