@@ -6,6 +6,7 @@ from future.utils import raise_from
 import base64
 import json
 
+import boto3
 import requests
 from requests import Session
 from requests.adapters import HTTPAdapter
@@ -69,6 +70,7 @@ class ClientSession(object):
         self._host = settings.api_host
         self._api_token = settings.api_token
         self._api_secret = settings.api_secret
+        self._api_id = settings.api_id
         self._jwt = settings.jwt
         self._headers = settings.headers
         self._model_service_host = settings.model_service_host
@@ -95,18 +97,29 @@ class ClientSession(object):
         The token that is returned from the API call will be used for all
         subsequent API calls.
         """
-        # make authentication request
-        session_response = self._post(
-            "/account/api/session",
-            json=dict(tokenId=self._api_token, secret=self._api_secret),
+
+        # Make authentication request to AWS Cognito
+        cognito_idp_client = boto3.client("cognito-idp")
+        response = cognito_idp_client.initiate_auth(
+            AuthFlow='USER_PASSWORD_AUTH',
+            AuthParameters={
+                "USERNAME": self._api_token,
+                "PASSWORD": self._api_secret
+            },
+            ClientId=self._api_id
         )
 
+        # Ensures that `self._session` exists
+        self.session
+
         # parse response, set session
-        self.token = session_response["session_token"]
+        self.token = response["AuthenticationResult"]["AccessToken"]
         self.profile = User.from_dict(self._get("/user/"))
 
-        if organization is None:
-            organization = session_response.get("organization")
+        # TODO(jesse) Populate this with results from an organization endpoint
+        # 
+        # if organization is None:
+        #     organization = session_response.get("organization")
 
         self._set_org_context(organization)
 
