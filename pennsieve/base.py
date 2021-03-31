@@ -101,10 +101,13 @@ class ClientSession(object):
         """
 
         # Get the latest public jwks for our user pool
-        region = "us-east-1"
-        userpool_id = "us-east-1_7bX2Pm0zh"
-        jwks_url = 'https://cognito-idp.{}.amazonaws.com/{}/.well-known/jwks.json'.format(region, userpool_id)
-        jwks = requests.get(jwks_url).json()["keys"]
+        #
+        # TODO(jesse) These keys are used to verify the JWT
+        #
+        # region = "us-east-1"
+        # userpool_id = "us-east-1_7bX2Pm0zh"
+        # jwks_url = 'https://cognito-idp.{}.amazonaws.com/{}/.well-known/jwks.json'.format(region, userpool_id)
+        # jwks = requests.get(jwks_url).json()["keys"]
 
         # Make authentication request to AWS Cognito
         cognito_idp_client = boto3.client("cognito-idp")
@@ -118,22 +121,23 @@ class ClientSession(object):
         access_token_jwt = response["AuthenticationResult"]["AccessToken"]
         id_token_jwt = response["AuthenticationResult"]["IdToken"]
 
-        # Search for the kid in the downloaded public keys
-        headers = jwt.get_unverified_headers(id_token_jwt)
-        kid = headers["kid"]
-        key_index = list(map(lambda jwk: jwk["kid"], jwks)).index(kid)
-
         # Verify the token signatures
         #
         # TODO(jesse) Figure out why this check fails.
         #
+        # Search for the kid in the downloaded public keys
+        #
+        # headers = jwt.get_unverified_headers(id_token_jwt)
+        # kid = headers["kid"]
+        # key_index = list(map(lambda jwk: jwk["kid"], jwks)).index(kid)
         # public_key = jwk.construct(jwks[key_index])
+        #
         # for token in [access_token_jwt, id_token_jwt]:
         #     message, encoded_signature = str(token).rsplit('.', 1)
         #     decoded_signature = base64url_decode(encoded_signature.encode('utf-8'))
         #     if not public_key.verify(message.encode("utf8"), decoded_signature):
         #         raise ValueError("Signature verification failed")
-        
+
         # Since we passed the verification, we can now safely use the claims
         claims = jwt.get_unverified_claims(id_token_jwt)
 
