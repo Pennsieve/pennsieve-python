@@ -46,7 +46,8 @@ class PennsieveRequest(object):
 
     def _handle_response(self, resp):
         self._logger.debug(u"resp = {}".format(resp))
-        self._logger.debug(u"resp.content = {}".format(resp.text))  # decoded unicode
+        self._logger.debug(u"resp.content = {}".format(
+            resp.text))  # decoded unicode
         if resp.status_code in [requests.codes.forbidden, requests.codes.unauthorized]:
             raise UnauthorizedException()
 
@@ -100,43 +101,18 @@ class ClientSession(object):
         subsequent API calls.
         """
 
-        # Get the latest public jwks for our user pool
-        #
-        # TODO(jesse) These keys are used to verify the JWT
-        #
-        # region = "us-east-1"
-        # userpool_id = "us-east-1_7bX2Pm0zh"
-        # jwks_url = 'https://cognito-idp.{}.amazonaws.com/{}/.well-known/jwks.json'.format(region, userpool_id)
-        # jwks = requests.get(jwks_url).json()["keys"]
-
         # Make authentication request to AWS Cognito
         cognito_idp_client = boto3.client("cognito-idp")
         response = cognito_idp_client.initiate_auth(
             AuthFlow="USER_PASSWORD_AUTH",
-            AuthParameters={"USERNAME": self._api_token, "PASSWORD": self._api_secret},
+            AuthParameters={"USERNAME": self._api_token,
+                            "PASSWORD": self._api_secret},
             ClientId=self._api_id,
         )
 
         # Grab the tokens
         access_token_jwt = response["AuthenticationResult"]["AccessToken"]
         id_token_jwt = response["AuthenticationResult"]["IdToken"]
-
-        # Verify the token signatures
-        #
-        # TODO(jesse) Figure out why this check fails.
-        #
-        # Search for the kid in the downloaded public keys
-        #
-        # headers = jwt.get_unverified_headers(id_token_jwt)
-        # kid = headers["kid"]
-        # key_index = list(map(lambda jwk: jwk["kid"], jwks)).index(kid)
-        # public_key = jwk.construct(jwks[key_index])
-        #
-        # for token in [access_token_jwt, id_token_jwt]:
-        #     message, encoded_signature = str(token).rsplit('.', 1)
-        #     decoded_signature = base64url_decode(encoded_signature.encode('utf-8'))
-        #     if not public_key.verify(message.encode("utf8"), decoded_signature):
-        #         raise ValueError("Signature verification failed")
 
         # Since we passed the verification, we can now safely use the claims
         claims = jwt.get_unverified_claims(id_token_jwt)
@@ -181,7 +157,8 @@ class ClientSession(object):
         self._session.headers["X-ORGANIZATION-ID"] = organization_id
 
     def _set_auth(self, session_token):
-        self._session.headers["Authorization"] = "Bearer {}".format(session_token)
+        self._session.headers["Authorization"] = "Bearer {}".format(
+            session_token)
 
     @property
     def session(self):
