@@ -46,8 +46,7 @@ class PennsieveRequest(object):
 
     def _handle_response(self, resp):
         self._logger.debug(u"resp = {}".format(resp))
-        self._logger.debug(u"resp.content = {}".format(
-            resp.text))  # decoded unicode
+        self._logger.debug(u"resp.content = {}".format(resp.text))  # decoded unicode
         if resp.status_code in [requests.codes.forbidden, requests.codes.unauthorized]:
             raise UnauthorizedException()
 
@@ -105,8 +104,7 @@ class ClientSession(object):
         cognito_idp_client = boto3.client("cognito-idp")
         response = cognito_idp_client.initiate_auth(
             AuthFlow="USER_PASSWORD_AUTH",
-            AuthParameters={"USERNAME": self._api_token,
-                            "PASSWORD": self._api_secret},
+            AuthParameters={"USERNAME": self._api_token, "PASSWORD": self._api_secret},
             ClientId=self._api_id,
         )
 
@@ -157,8 +155,7 @@ class ClientSession(object):
         self._session.headers["X-ORGANIZATION-ID"] = organization_id
 
     def _set_auth(self, session_token):
-        self._session.headers["Authorization"] = "Bearer {}".format(
-            session_token)
+        self._session.headers["Authorization"] = "Bearer {}".format(session_token)
 
     @property
     def session(self):
