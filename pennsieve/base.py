@@ -103,7 +103,7 @@ class ClientSession(object):
         cognito_client_application_id = cognito_config["tokenPool"]["appClientId"]
 
         # Make authentication request to AWS Cognito
-        cognito_idp_client = boto3.client("cognito-idp")
+        cognito_idp_client = boto3.client("cognito-idp", region_name="us-east-1")
         response = cognito_idp_client.initiate_auth(
             AuthFlow="USER_PASSWORD_AUTH",
             AuthParameters={"USERNAME": self._api_token, "PASSWORD": self._api_secret},
