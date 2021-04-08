@@ -159,8 +159,6 @@ DEFAULTS = {
     # pennsieve API token/secret
     "api_token": None,
     "api_secret": None,
-    # AWS Region
-    "aws_region_name": "us-east-1",
     # pennsieve JWT
     "jwt": None,
     # global headers
@@ -190,7 +188,6 @@ ENVIRONMENT_VARIABLES = {
     "api_host": ("PENNSIEVE_API_LOC", str),
     "api_token": ("PENNSIEVE_API_TOKEN", str),
     "api_secret": ("PENNSIEVE_API_SECRET", str),
-    "aws_region_name": ("AWS_REGION_NAME", str),
     "jwt": ("PENNSIEVE_JWT", str),
     "pennsieve_dir": ("PENNSIEVE_LOCAL_DIR", str),
     "cache_dir": ("PENNSIEVE_CACHE_LOC", str),
