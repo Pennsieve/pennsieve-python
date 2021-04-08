@@ -71,8 +71,10 @@ class Pennsieve(object):
 
     Note:
         To initialize your ``Pennsieve`` client without passing any arguments,
-        ensure that your ``PENNSIEVE_API_TOKEN`` and ``PENNSIEVE_API_SECRET`` environment variables
-        are properly set.
+        ensure that these environment variables are set:
+
+        - ``PENNSIEVE_API_TOKEN``   (Username of your token pool credentials)
+        - ``PENNSIEVE_API_SECRET``  (Password of your token pool credentials)
 
     """
 

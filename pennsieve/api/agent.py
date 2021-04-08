@@ -25,7 +25,7 @@ except ModuleNotFoundError:
     )
 
 
-MINIMUM_AGENT_VERSION = semver.parse_version_info("0.2.100")
+MINIMUM_AGENT_VERSION = semver.VersionInfo.parse("0.2.100")
 DEFAULT_LISTEN_PORT = 11235
 
 

@@ -6,7 +6,10 @@ from future.utils import raise_from
 import base64
 import json
 
+import boto3
 import requests
+from jose import jwk, jwt
+from jose.utils import base64url_decode
 from requests import Session
 from requests.adapters import HTTPAdapter
 from requests.exceptions import HTTPError
@@ -95,18 +98,37 @@ class ClientSession(object):
         The token that is returned from the API call will be used for all
         subsequent API calls.
         """
-        # make authentication request
-        session_response = self._post(
-            "/account/api/session",
-            json=dict(tokenId=self._api_token, secret=self._api_secret),
+
+        cognito_config = self._get("/authentication/cognito-config")
+        cognito_client_application_id = cognito_config["tokenPool"]["appClientId"]
+        cognito_region_name = cognito_config["region"]
+
+        # Make authentication request to AWS Cognito
+        cognito_idp_client = boto3.client(
+            "cognito-idp", region_name=cognito_region_name
+        )
+        response = cognito_idp_client.initiate_auth(
+            AuthFlow="USER_PASSWORD_AUTH",
+            AuthParameters={"USERNAME": self._api_token, "PASSWORD": self._api_secret},
+            ClientId=cognito_client_application_id,
         )
 
-        # parse response, set session
-        self.token = session_response["session_token"]
+        # Grab the tokens
+        access_token_jwt = response["AuthenticationResult"]["AccessToken"]
+        id_token_jwt = response["AuthenticationResult"]["IdToken"]
+
+        # Since we passed the verification, we can now safely use the claims
+        claims = jwt.get_unverified_claims(id_token_jwt)
+
+        # Ensures that `self._session` exists
+        self.session
+
+        # Parse response, set session access token
+        self.token = access_token_jwt
         self.profile = User.from_dict(self._get("/user/"))
 
         if organization is None:
-            organization = session_response.get("organization")
+            organization = claims["custom:organization_node_id"]
 
         self._set_org_context(organization)
 

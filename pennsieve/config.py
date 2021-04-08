@@ -155,6 +155,7 @@ DEFAULTS = {
     # pennsieve api locations
     "api_host": "https://api.pennsieve.io",
     "model_service_host": None,
+    # Pennsieve AWS Cognito Client Application ID
     # pennsieve API token/secret
     "api_token": None,
     "api_secret": None,
@@ -273,7 +274,7 @@ class Settings(object):
         if "global" in self.config:
             self._parse_profile("global")
         for name in self.config.sections():
-            if name is not "global":
+            if name != "global":
                 self.profiles[name] = self.profiles["global"].copy()
                 self._parse_profile(name)
 
@@ -298,7 +299,7 @@ class Settings(object):
         else:
             self.__dict__.update(self.profiles[name])
             self.active_profile = name
-            if name is "global":
+            if name == "global":
                 self.active_profile = None
 
     @property
