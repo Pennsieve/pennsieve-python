@@ -76,6 +76,7 @@ class ClientSession(object):
         self._headers = settings.headers
         self._model_service_host = settings.model_service_host
         self._logger = log.get_logger("pennsieve.base.ClientSession")
+        self.aws_region_name = settings.aws_region_name
 
         self._session = None
         self._token = None
@@ -103,7 +104,9 @@ class ClientSession(object):
         cognito_client_application_id = cognito_config["tokenPool"]["appClientId"]
 
         # Make authentication request to AWS Cognito
-        cognito_idp_client = boto3.client("cognito-idp", region_name="us-east-1")
+        cognito_idp_client = boto3.client(
+            "cognito-idp", region_name=self.aws_region_name
+        )
         response = cognito_idp_client.initiate_auth(
             AuthFlow="USER_PASSWORD_AUTH",
             AuthParameters={"USERNAME": self._api_token, "PASSWORD": self._api_secret},
