@@ -99,9 +99,8 @@ class ClientSession(object):
         subsequent API calls.
         """
 
-        cognito_config_response = self._get("/authentication/cognito-config")
-        cognito_config = cognito_config_response.json()
-        cognito_client_application_id = cognito_config["appClientId"]
+        cognito_config = self._get("/authentication/cognito-config")
+        cognito_client_application_id = cognito_config["tokenPool"]["appClientId"]
 
         # Make authentication request to AWS Cognito
         cognito_idp_client = boto3.client("cognito-idp")
