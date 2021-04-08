@@ -156,7 +156,6 @@ DEFAULTS = {
     "api_host": "https://api.pennsieve.io",
     "model_service_host": None,
     # Pennsieve AWS Cognito Client Application ID
-    "api_id": None,
     # pennsieve API token/secret
     "api_token": None,
     "api_secret": None,
@@ -187,7 +186,6 @@ DEFAULTS = {
 
 ENVIRONMENT_VARIABLES = {
     "api_host": ("PENNSIEVE_API_LOC", str),
-    "api_id": ("PENNSIEVE_API_ID", str),
     "api_token": ("PENNSIEVE_API_TOKEN", str),
     "api_secret": ("PENNSIEVE_API_SECRET", str),
     "jwt": ("PENNSIEVE_JWT", str),

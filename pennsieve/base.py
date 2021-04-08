@@ -72,7 +72,6 @@ class ClientSession(object):
         self._host = settings.api_host
         self._api_token = settings.api_token
         self._api_secret = settings.api_secret
-        self._api_id = settings.api_id
         self._jwt = settings.jwt
         self._headers = settings.headers
         self._model_service_host = settings.model_service_host
@@ -100,12 +99,16 @@ class ClientSession(object):
         subsequent API calls.
         """
 
+        cognito_config_response = self._get("/authentication/cognito-config")
+        cognito_config = cognito_config_response.json()
+        cognito_client_application_id = cognito_config["appClientId"]
+
         # Make authentication request to AWS Cognito
         cognito_idp_client = boto3.client("cognito-idp")
         response = cognito_idp_client.initiate_auth(
             AuthFlow="USER_PASSWORD_AUTH",
             AuthParameters={"USERNAME": self._api_token, "PASSWORD": self._api_secret},
-            ClientId=self._api_id,
+            ClientId=cognito_client_application_id,
         )
 
         # Grab the tokens
