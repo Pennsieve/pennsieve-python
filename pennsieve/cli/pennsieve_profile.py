@@ -108,7 +108,9 @@ def setup_assistant(settings):
     print("Create a profile:")
     create_profile(settings)
 
-    print("Setup complete. Run 'pennsieve-profile help' for available commands and actions")
+    print(
+        "Setup complete. Run 'pennsieve-profile help' for available commands and actions"
+    )
 
 
 # User commands
