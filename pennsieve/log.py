@@ -19,6 +19,10 @@ def get_logger(name="pennsieve-python"):
     """
 
     logger = logging.getLogger(name)
-    logger.setLevel(os.environ.get("PENNSIEVE_LOG_LEVEL", "INFO"))
+    logger.setLevel(get_log_level())
 
     return logger
+
+
+def get_log_level(default="INFO"):
+    return os.environ.get("PENNSIEVE_LOG_LEVEL", default)

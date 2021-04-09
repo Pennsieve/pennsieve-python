@@ -12,7 +12,7 @@ from time import sleep
 
 import semver
 
-from pennsieve.log import get_logger
+from pennsieve.log import get_log_level, get_logger
 from pennsieve.models import Collection, DataPackage, Dataset
 
 logger = get_logger("pennsieve.agent")
@@ -25,7 +25,7 @@ except ModuleNotFoundError:
     )
 
 
-MINIMUM_AGENT_VERSION = semver.VersionInfo.parse("0.2.100")
+MINIMUM_AGENT_VERSION = semver.VersionInfo.parse("0.3.4")
 DEFAULT_LISTEN_PORT = 11235
 
 
@@ -51,16 +51,16 @@ def validate_agent_installation(settings):
     Check whether the agent is installed and at least the minimum version.
     """
     try:
-        version = subprocess.check_output(
-            [agent_cmd(), "version"], env=agent_env(settings)
-        )
+        env = agent_env(settings)
+        env["PENNSIEVE_LOG_LEVEL"] = "ERROR"  # Avoid spurious output with the version
+        version = subprocess.check_output([agent_cmd(), "version"], env=env)
     except (AgentError, subprocess.CalledProcessError, EnvironmentError) as e:
         raise AgentError(
             "Agent not installed. Visit https://developer.pennsieve.io/agent for installation directions."
         )
 
     try:
-        agent_version = semver.parse_version_info(version.decode().strip())
+        agent_version = semver.VersionInfo.parse(version.decode().strip())
     except ValueError as e:
         raise_from(AgentError("Invalid version string"), e)
 
@@ -85,14 +85,12 @@ def agent_env(settings):
         "PENNSIEVE_API_LOC": settings.api_host,
         "PENNSIEVE_API_TOKEN": settings.api_token,
         "PENNSIEVE_API_SECRET": settings.api_secret,
+        "PENNSIEVE_LOG_LEVEL": get_log_level(),
     }
     if sys.platform in ["win32", "cygwin"]:
         env["SYSTEMROOT"] = os.getenv("SYSTEMROOT")
     # On Windows, the SYSTEMROOT environment variable must be preserved for DLLs to correctly load.
     # ref: https://travis-ci.community/t/socket-the-requested-service-provider-could-not-be-loaded-or-initialized/1127
-
-    if "PENNSIEVE_LOG_LEVEL" in os.environ:
-        env["PENNSIEVE_LOG_LEVEL"] = os.environ.get("PENNSIEVE_LOG_LEVEL")
 
     logger.debug("Agent environment: %s", env)
 
@@ -115,11 +113,12 @@ class AgentListener(object):
         command = [agent_cmd(), "upload-status", "--listen", "--port", str(self.port)]
 
         self.devnull = open(os.devnull, "w")
+
         self.proc = subprocess.Popen(
             command,
             env=agent_env(self.settings),
-            stdout=self.devnull,
-            stderr=self.devnull,
+            stdout=sys.stdout if get_log_level() == "DEBUG" else self.devnull,
+            stderr=sys.stderr if get_log_level() == "DEBUG" else self.devnull,
         )
         return self.proc
 

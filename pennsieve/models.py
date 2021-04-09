@@ -668,10 +668,6 @@ class BaseCollection(BaseDataNode):
         Keyword Args:
             display_progress (boolean): If ``True``, a progress bar will be
                 shown to track upload progress. Defaults to ``False``.
-            use_agent (boolean): If ``True``, and a compatible version of the
-                Agent is installed, uploads will be performed by the
-                Pennsieve CLI Agent. This allows large file upload in excess
-                of 1 hour. Defaults to ``True``.
             recursive (boolean): If ``True``, the nested folder structure of
                 the uploaded directory will be preversed. This can only be used
                 with the Pennsieve CLI Agent. Defaults to ``False``.
@@ -1275,10 +1271,6 @@ class TimeSeries(DataPackage):
         Keyword Args:
             display_progress (boolean): If ``True``, a progress bar will be
                 shown to track upload progress. Defaults to ``False``.
-            use_agent (boolean): If ``True``, and a compatible version of the
-                Agent is installed, uploads will be performed by the
-                Pennsieve CLI Agent. This allows large file upload in excess
-                of 1 hour. Defaults to ``True``.
         """
         self._check_exists()
         files = _flatten_file_args(files)
