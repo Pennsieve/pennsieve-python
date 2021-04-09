@@ -51,9 +51,9 @@ def validate_agent_installation(settings):
     Check whether the agent is installed and at least the minimum version.
     """
     try:
-        version = subprocess.check_output(
-            [agent_cmd(), "version"], env=agent_env(settings)
-        )
+        env = agent_env(settings)
+        env["PENNSIEVE_LOG_LEVEL"] = "ERROR"  # Avoid spurious output with the version
+        version = subprocess.check_output([agent_cmd(), "version"], env=env)
     except (AgentError, subprocess.CalledProcessError, EnvironmentError) as e:
         raise AgentError(
             "Agent not installed. Visit https://developer.pennsieve.io/agent for installation directions."
