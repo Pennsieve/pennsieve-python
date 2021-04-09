@@ -12,7 +12,7 @@ from time import sleep
 
 import semver
 
-from pennsieve.log import get_logger
+from pennsieve.log import get_log_level, get_logger
 from pennsieve.models import Collection, DataPackage, Dataset
 
 logger = get_logger("pennsieve.agent")
@@ -85,14 +85,12 @@ def agent_env(settings):
         "PENNSIEVE_API_LOC": settings.api_host,
         "PENNSIEVE_API_TOKEN": settings.api_token,
         "PENNSIEVE_API_SECRET": settings.api_secret,
+        "PENNSIEVE_LOG_LEVEL": get_log_level(),
     }
     if sys.platform in ["win32", "cygwin"]:
         env["SYSTEMROOT"] = os.getenv("SYSTEMROOT")
     # On Windows, the SYSTEMROOT environment variable must be preserved for DLLs to correctly load.
     # ref: https://travis-ci.community/t/socket-the-requested-service-provider-could-not-be-loaded-or-initialized/1127
-
-    if "PENNSIEVE_LOG_LEVEL" in os.environ:
-        env["PENNSIEVE_LOG_LEVEL"] = os.environ.get("PENNSIEVE_LOG_LEVEL")
 
     logger.debug("Agent environment: %s", env)
 
@@ -108,20 +106,25 @@ class AgentListener(object):
         self.settings = settings
         self.port = port
         self.proc = None
+        self.devnull = None
 
     def __enter__(self):
         check_port(self.port)
         command = [agent_cmd(), "upload-status", "--listen", "--port", str(self.port)]
+
+        self.devnull = open(os.devnull, "w")
+
         self.proc = subprocess.Popen(
             command,
             env=agent_env(self.settings),
-            stdout=sys.stdout,
-            stderr=sys.stderr
+            stdout=sys.stdout if get_log_level() == "DEBUG" else self.devnull,
+            stderr=sys.stderr if get_log_level() == "DEBUG" else self.devnull,
         )
         return self.proc
 
     def __exit__(self, *exc):
         self.proc.kill()
+        self.devnull.close()
 
 
 def check_port(port):

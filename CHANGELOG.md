@@ -6,11 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 Documentation at <https://developer.pennsieve.io/python/>
 
-## Next release
+## 6.1.1
 
 ### Fixed
-
-- Profile setup script. Use the `pennsieve-profile` command to set up your Pennsieve API keys.
+- Updated minimum Agent CLI version to fix panic
+- Profile setup script. Use the `pennsieve-profile` command to set up your Pennsieve API keys
 
 ## 6.1.0
 
