@@ -13,18 +13,18 @@ Description
     4. Environment variables, e.g.: PENNSIEVE_API_TOKEN
 
 Usage:
-  ps_profile create [<name>]
-  ps_profile show [<name>]
-  ps_profile delete [<name>] [-f | --force]
-  ps_profile list [-c | --contents]
-  ps_profile set-default [<name>]
-  ps_profile unset-default [-f | --force]
-  ps_profile status
-  ps_profile set <key> <value> [-f | --force] [--profile=<name>]
-  ps_profile unset <key> [-f | --force] [--profile=<name>]
-  ps_profile keys [--profile=<name>]
-  ps_profile version
-  ps_profile help
+  pennsieve-profile create [<name>]
+  pennsieve-profile show [<name>]
+  pennsieve-profile delete [<name>] [-f | --force]
+  pennsieve-profile list [-c | --contents]
+  pennsieve-profile set-default [<name>]
+  pennsieve-profile unset-default [-f | --force]
+  pennsieve-profile status
+  pennsieve-profile set <key> <value> [-f | --force] [--profile=<name>]
+  pennsieve-profile unset <key> [-f | --force] [--profile=<name>]
+  pennsieve-profile keys [--profile=<name>]
+  pennsieve-profile version
+  pennsieve-profile help
 
 Options:
   -c --contents       List profiles with contents. Also lists global settings, if any
@@ -108,7 +108,7 @@ def setup_assistant(settings):
     print("Create a profile:")
     create_profile(settings)
 
-    print("Setup complete. Run 'ps_profile help' for available commands and actions")
+    print("Setup complete. Run 'pennsieve-profile help' for available commands and actions")
 
 
 # User commands
@@ -339,7 +339,7 @@ def yesno_prompt(msg):
 
 
 def invalid_usage():
-    print("Invalid usage. See `ps_profile help` for available commands")
+    print("Invalid usage. See `pennsieve-profile help` for available commands")
     abort()
 
 
