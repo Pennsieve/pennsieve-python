@@ -42,14 +42,8 @@ class IOAPI(APIBase):
         dataset=None,
         append=False,
         display_progress=False,
-        recursive=False,
-        use_agent=True,
+        recursive=False
     ):
-        if not use_agent:
-            logger.warn(
-                "uploading without the Pennsieve agent is no longer supported. Falling back to use_agent=True"
-            )
-
         if isinstance(destination, Dataset):
             # uploading into dataset
             destination_id = None
