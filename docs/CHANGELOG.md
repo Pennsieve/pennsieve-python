@@ -136,7 +136,7 @@ Documentation at <https://developer.pennsieve.io/python/>
 
 ### Breaking Changes
 - Uploading now uses the Pennsieve CLI Agent by default. Visit <https://developer.pennsieve.io/agent/> for installation instructions. You can pass `use_agent=True` to continue to use the legacy uploader.
-- Most of the functionality in the `bf` command line script has been removed. The script has been renamed `ps_profile` and only manages Pennsieve profiles. The Pennsieve CLI Agent is now the recommended command line interface to the platform.
+- Most of the functionality in the `bf` command line script has been removed. The script has been renamed `bf_profile` and only manages Pennsieve profiles. The Pennsieve CLI Agent is now the recommended command line interface to the platform.
 - Removed the deprecated `set_type` and `set_value` methods
 - Removed the `streaming_api_host` argument from the `Pennsieve` client
 - Removed the deprecated `get_collaborators`, `add_collaborators`, and `remove_collaborators` methods

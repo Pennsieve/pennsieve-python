@@ -39,9 +39,7 @@ setup(
     },
     python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, <4.0",
     entry_points={
-        "console_scripts": [
-            "bf_profile=pennsieve.cli.bf_profile:main",
-        ]
+        "console_scripts": ["pennsieve-profile=pennsieve.cli.pennsieve_profile:main"]
     },
     license="",
     keywords="pennsieve client rest api",

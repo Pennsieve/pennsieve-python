@@ -25,11 +25,11 @@ Configuration
     Once you have generated your API keys, don't close your browser window until
     you have used your keys in the following steps.
 
-To create a configuration profile, run ``ps_profile create`` from the command line:
+To create a configuration profile, run ``pennsieve-profile create`` from the command line:
 
 .. code:: bash
 
-    $ ps_profile create
+    $ pennsieve-profile create
 
 When prompted, give your profile a unique name, or press enter to name your profile ``default``:
 
@@ -56,11 +56,11 @@ Finally, enter ``y`` to set this profile as the *default profile*:
    Would you like to set 'my_profile' as default (Y/n)? y
    Default profile: my_profile
 
-To verify that your profile was set up correctly, run ``ps_profile status``:
+To verify that your profile was set up correctly, run ``pennsieve-profile status``:
 
 .. code:: bash
 
-   $ ps_profile status
+   $ pennsieve-profile status
 
    Active profile:
      my_profile
