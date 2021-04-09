@@ -42,7 +42,7 @@ class IOAPI(APIBase):
         dataset=None,
         append=False,
         display_progress=False,
-        recursive=False
+        recursive=False,
     ):
         if isinstance(destination, Dataset):
             # uploading into dataset
