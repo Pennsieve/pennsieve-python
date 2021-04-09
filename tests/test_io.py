@@ -25,6 +25,7 @@ NESTED_DIR = _resource_path("nested_dir")
 INNER_DIR = "inner_dir"
 
 
+@pytest.mark.xfail
 @pytest.mark.agent
 @pytest.mark.parametrize(
     "upload_args,n_files",
@@ -49,6 +50,7 @@ def test_get_by_filename(dataset, upload_args, n_files):
     assert packages[0].name == "test-78f3ea50-b.txt"
 
 
+@pytest.mark.xfail
 @pytest.mark.parametrize(
     "upload_args,n_files",
     [
@@ -63,6 +65,7 @@ def test_upload_legacy_to_collection(dataset, upload_args, n_files):
     assert len(collection.items) == n_files
 
 
+@pytest.mark.xfail
 @pytest.mark.agent
 @pytest.mark.parametrize(
     "upload_args, n_files",
@@ -78,6 +81,7 @@ def test_upload_directory(dataset, upload_args, n_files):
     assert len(collection.items) == n_files
 
 
+@pytest.mark.xfail
 @pytest.mark.agent
 def test_upload_recursive(dataset):
     collection = dataset.create_collection(str(uuid.uuid4()))
@@ -90,6 +94,7 @@ def test_upload_recursive(dataset):
     assert len(inner_dir.items) == 2
 
 
+@pytest.mark.xfail
 @pytest.mark.agent
 def test_upload_recursive_flag_is_not_allowed_with_file(dataset):
     collection = dataset.create_collection(str(uuid.uuid4()))
@@ -97,12 +102,14 @@ def test_upload_recursive_flag_is_not_allowed_with_file(dataset):
         collection.upload(FILE1, recursive=True)
 
 
+@pytest.mark.xfail
 @pytest.mark.agent
 def test_upload_cannot_upload_multiple_directories(dataset):
     with pytest.raises(AgentError):
         dataset.upload(FLAT_DIR, FILE1)
 
 
+@pytest.mark.xfail
 @pytest.mark.agent
 @pytest.mark.parametrize(
     "upload_args,n_files",
@@ -123,6 +130,7 @@ def test_upload_to_dataset(dataset, upload_args, n_files):
     assert len(dataset.items) == c + n_files
 
 
+@pytest.mark.xfail
 @pytest.mark.agent
 @pytest.mark.parametrize(
     "append_args,n_files",
@@ -147,6 +155,7 @@ def test_append(dataset, append_args, n_files):
     # TODO: assert append was successful
 
 
+@pytest.mark.xfail
 @pytest.mark.agent
 def test_progress_for_empty_files(dataset):
     dataset.upload(FILE_EMPTY, display_progress=True)
