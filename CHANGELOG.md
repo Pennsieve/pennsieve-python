@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 Documentation at <https://developer.pennsieve.io/python/>
 
+## Next release
+
+### Fixed
+
+- Profile setup script. Use the `pennsieve-profile` command to set up your Pennsieve API keys.
+
+## 6.1.0
+
+### Added
+- Client now authenticates to the platform using Cognito
+
+### Known Issues
+- The Agent integration is currently broken and will be hot-fixed
+
 ## 6.0.0
 
 ### Breaking Changes
