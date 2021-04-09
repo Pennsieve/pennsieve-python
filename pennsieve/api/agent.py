@@ -60,7 +60,7 @@ def validate_agent_installation(settings):
         )
 
     try:
-        agent_version = semver.parse_version_info(version.decode().strip())
+        agent_version = semver.VersionInfo.parse(version.decode().strip())
     except ValueError as e:
         raise_from(AgentError("Invalid version string"), e)
 
@@ -108,24 +108,20 @@ class AgentListener(object):
         self.settings = settings
         self.port = port
         self.proc = None
-        self.devnull = None
 
     def __enter__(self):
         check_port(self.port)
         command = [agent_cmd(), "upload-status", "--listen", "--port", str(self.port)]
-
-        self.devnull = open(os.devnull, "w")
         self.proc = subprocess.Popen(
             command,
             env=agent_env(self.settings),
-            stdout=self.devnull,
-            stderr=self.devnull,
+            stdout=sys.stdout,
+            stderr=sys.stderr
         )
         return self.proc
 
     def __exit__(self, *exc):
         self.proc.kill()
-        self.devnull.close()
 
 
 def check_port(port):
