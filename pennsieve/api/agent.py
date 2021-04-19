@@ -4,6 +4,7 @@ from future.utils import raise_from
 import errno
 import json
 import os
+import platform
 import socket
 import subprocess
 import sys
@@ -148,6 +149,8 @@ def check_port(port):
 
 
 def socket_address(port):
+    if platform.system() == "Windows":
+        return "ws://127.0.0.1:{}".format(port)
     return "ws://0.0.0.0:{}".format(port)
 
 
