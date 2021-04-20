@@ -221,11 +221,6 @@ def agent_upload(
     # Agent uses absolute paths
     expected_files = [os.path.abspath(f) for f in expected_files]
 
-    # Filter out .DS_STORE files
-    expected_files = [
-        f for f in expected_files if os.path.split(f)[-1].lower() != ".ds_store"
-    ]
-
     if isinstance(destination, Dataset):
         dataset_id = destination.id
         package_id = None
