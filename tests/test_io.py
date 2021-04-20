@@ -22,6 +22,7 @@ FILE4 = _resource_path("test-78f3ea50-b.txt")
 FILE_EMPTY = _resource_path("test-78f3ea50.empty")
 FLAT_DIR = _resource_path("flat_dir")
 NESTED_DIR = _resource_path("nested_dir")
+DSTORE_DIR = _resource_path("dstore_dir")
 INNER_DIR = "inner_dir"
 
 
@@ -102,6 +103,13 @@ def test_upload_recursive_flag_is_not_allowed_with_file(dataset):
 def test_upload_cannot_upload_multiple_directories(dataset):
     with pytest.raises(AgentError):
         dataset.upload(FLAT_DIR, FILE1)
+
+
+@pytest.mark.agent
+def test_upload_directory_with_dstore_file(dataset):
+    collection = dataset.create_collection(str(uuid.uuid4()))
+    collection.upload(DSTORE_DIR, recursive=True)
+    assert len(collection.items) == 1
 
 
 @pytest.mark.agent
