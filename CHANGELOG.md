@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 Documentation at <https://developer.pennsieve.io/python/>
 
+
+## 6.1.2
+
+### Fixed
+- Authentication with Cognito when a user does not have AWS credentials configured
+- Fixed connection to the Agent websocket on Windows
+
 ## 6.1.1
 
 ### Fixed

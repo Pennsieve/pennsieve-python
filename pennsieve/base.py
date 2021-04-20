@@ -88,11 +88,11 @@ class ClientSession(object):
     def authenticate(self, organization=None):
         """"""
         if self._jwt is None:
-            self._authenticate_with_session(organization=organization)
+            self._authenticate_with_cognito(organization=organization)
         else:
             self._authenticate_with_jwt()
 
-    def _authenticate_with_session(self, organization=None):
+    def _authenticate_with_cognito(self, organization=None):
         """
         An API token is used to authenticate against the Pennsieve platform.
         The token that is returned from the API call will be used for all
@@ -103,9 +103,17 @@ class ClientSession(object):
         cognito_client_application_id = cognito_config["tokenPool"]["appClientId"]
         cognito_region_name = cognito_config["region"]
 
-        # Make authentication request to AWS Cognito
+        # Authenticate to AWS Cognito
+        #
+        # Hack: stub the access and secret keys with empty values so boto does
+        # not look for AWS credentials in the environment. Some versions of boto
+        # fail when they cannot find AWS credentials even though Cognito does
+        # not need creds.
         cognito_idp_client = boto3.client(
-            "cognito-idp", region_name=cognito_region_name
+            "cognito-idp",
+            region_name=cognito_region_name,
+            aws_access_key_id="",
+            aws_secret_access_key="",
         )
         response = cognito_idp_client.initiate_auth(
             AuthFlow="USER_PASSWORD_AUTH",
