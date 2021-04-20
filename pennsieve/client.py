@@ -32,7 +32,6 @@ class Pennsieve(object):
         profile (str, optional): Preferred profile to use
         api_token (str, optional): Preferred api token to use
         api_secret (str, optional): Preferred api secret to use
-        jwt (str, optional): A JWT to use for authentication
         headers (dict, optional): A set of global headers to attach to every request
         model_service_host (str, optional): Preferred model service host to use
         host (str, optional): Preferred host to use
@@ -83,7 +82,6 @@ class Pennsieve(object):
         profile=None,
         api_token=None,
         api_secret=None,
-        jwt=None,
         headers=None,
         host=None,
         model_service_host=None,
@@ -100,7 +98,6 @@ class Pennsieve(object):
                     "api_token": api_token,
                     "api_secret": api_secret,
                     "api_host": host,
-                    "jwt": jwt,
                     "headers": headers,
                     "model_service_host": model_service_host,
                 }.items()
@@ -109,19 +106,14 @@ class Pennsieve(object):
         )
         self.settings = Settings(profile, overrides, env_override)
 
-        if (
-            self.settings.api_token is None or self.settings.api_secret is None
-        ) and self.settings.jwt is None:
-            if self.settings.api_token is None:
-                raise Exception(
-                    "Error: No API token found. Cannot connect to Pennsieve."
-                )
-            if self.settings.api_secret is None:
-                raise Exception(
-                    "Error: No API secret found. Cannot connect to Pennsieve."
-                )
-            if self.settings.jwt is None:
-                raise Exception("Error: No JWT found. Cannot connect to Pennsieve.")
+        if self.settings.api_token is None:
+            raise Exception(
+                "Error: No API token found. Cannot connect to Pennsieve."
+            )
+        if self.settings.api_secret is None:
+            raise Exception(
+                "Error: No API secret found. Cannot connect to Pennsieve."
+            )
 
         # direct interface to REST API.
         self._api = ClientSession(self.settings)

@@ -159,8 +159,6 @@ DEFAULTS = {
     # pennsieve API token/secret
     "api_token": None,
     "api_secret": None,
-    # pennsieve JWT
-    "jwt": None,
     # global headers
     "headers": None,
     # all requests
@@ -188,7 +186,6 @@ ENVIRONMENT_VARIABLES = {
     "api_host": ("PENNSIEVE_API_LOC", str),
     "api_token": ("PENNSIEVE_API_TOKEN", str),
     "api_secret": ("PENNSIEVE_API_SECRET", str),
-    "jwt": ("PENNSIEVE_JWT", str),
     "pennsieve_dir": ("PENNSIEVE_LOCAL_DIR", str),
     "cache_dir": ("PENNSIEVE_CACHE_LOC", str),
     "cache_max_size": ("PENNSIEVE_CACHE_MAX_SIZE", int),

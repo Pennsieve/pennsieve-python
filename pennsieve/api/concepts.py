@@ -65,16 +65,9 @@ class ModelsAPIBase(APIBase):
 
 class ModelsAPI(ModelsAPIBase):
     name = "concepts"
+    base_uri =  "/models/datasets"
 
     def __init__(self, session):
-        self.host = (
-            session._host
-            if session._model_service_host == None
-            else session._model_service_host
-        )
-        self.base_uri = (
-            "/models/datasets" if session._model_service_host == None else "/datasets"
-        )
         self.instances = RecordsAPI(session)
         self.relationships = ModelRelationshipsAPI(session)
         self.proxies = ModelProxiesAPI(session)
@@ -387,14 +380,7 @@ class ModelsAPI(ModelsAPIBase):
 
 class RecordsAPI(ModelsAPIBase):
     name = "concepts.instances"
-
-    def __init__(self, session):
-        if session._model_service_host != None:
-            self.host = session._model_service_host
-        self.base_uri = (
-            "/models/datasets" if session._model_service_host == None else "/datasets"
-        )
-        super(RecordsAPI, self).__init__(session)
+    base_uri = "/models/datasets"
 
     def get(self, dataset, instance, concept=None):
         dataset_id = self._get_id(dataset)
@@ -698,13 +684,9 @@ class RecordsAPI(ModelsAPIBase):
 
 class ModelRelationshipsAPI(ModelsAPIBase):
     name = "concepts.relationships"
+    base_uri = "/models/datasets"
 
     def __init__(self, session):
-        if session._model_service_host != None:
-            self.host = session._model_service_host
-        self.base_uri = (
-            "/models/datasets" if session._model_service_host == None else "/datasets"
-        )
         self.instances = ModelRelationshipInstancesAPI(session)
         super(ModelRelationshipsAPI, self).__init__(session)
 
@@ -747,14 +729,7 @@ class ModelRelationshipsAPI(ModelsAPIBase):
 
 class ModelRelationshipInstancesAPI(ModelsAPIBase):
     name = "concepts.relationships.instances"
-
-    def __init__(self, session):
-        if session._model_service_host != None:
-            self.host = session._model_service_host
-        self.base_uri = (
-            "/models/datasets" if session._model_service_host == None else "/datasets"
-        )
-        super(ModelRelationshipInstancesAPI, self).__init__(session)
+    base_uri = "/models/datasets"
 
     def get_all(self, dataset, relationship):
         dataset_id = self._get_id(dataset)
@@ -895,17 +870,10 @@ class ModelRelationshipInstancesAPI(ModelsAPIBase):
 
 class ModelProxiesAPI(ModelsAPIBase):
     name = "concepts.proxies"
+    base_uri = "/models/datasets"
 
     proxy_types = ["package"]
     direction_types = ["FromTarget", "ToTarget"]
-
-    def __init__(self, session):
-        if session._model_service_host != None:
-            self.host = session._model_service_host
-        self.base_uri = (
-            "/models/datasets" if session._model_service_host == None else "/datasets"
-        )
-        super(ModelProxiesAPI, self).__init__(session)
 
     def create(
         self,
@@ -1138,15 +1106,7 @@ class ModelQuery(object):
 
 class ModelQueryAPI(ModelsAPIBase):
     name = "concepts.query"
-
-    def __init__(self, session):
-        if session._model_service_host != None:
-            self.host = session._model_service_host
-
-        self.base_uri = (
-            "/models/datasets" if session._model_service_host == None else "/datasets"
-        )
-        super(ModelQueryAPI, self).__init__(session)
+    base_uri = "/models/datasets"
 
     def new(self, model, dataset_id):
         """
