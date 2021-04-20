@@ -65,7 +65,7 @@ class ModelsAPIBase(APIBase):
 
 class ModelsAPI(ModelsAPIBase):
     name = "concepts"
-    base_uri =  "/models/datasets"
+    base_uri = "/models/datasets"
 
     def __init__(self, session):
         self.instances = RecordsAPI(session)

@@ -107,13 +107,9 @@ class Pennsieve(object):
         self.settings = Settings(profile, overrides, env_override)
 
         if self.settings.api_token is None:
-            raise Exception(
-                "Error: No API token found. Cannot connect to Pennsieve."
-            )
+            raise Exception("Error: No API token found. Cannot connect to Pennsieve.")
         if self.settings.api_secret is None:
-            raise Exception(
-                "Error: No API secret found. Cannot connect to Pennsieve."
-            )
+            raise Exception("Error: No API secret found. Cannot connect to Pennsieve.")
 
         # direct interface to REST API.
         self._api = ClientSession(self.settings)
