@@ -72,7 +72,6 @@ class ClientSession(object):
         self._host = settings.api_host
         self._api_token = settings.api_token
         self._api_secret = settings.api_secret
-        self._jwt = settings.jwt
         self._headers = settings.headers
         self._model_service_host = settings.model_service_host
         self._logger = log.get_logger("pennsieve.base.ClientSession")
@@ -86,13 +85,6 @@ class ClientSession(object):
         self.settings = settings
 
     def authenticate(self, organization=None):
-        """"""
-        if self._jwt is None:
-            self._authenticate_with_cognito(organization=organization)
-        else:
-            self._authenticate_with_jwt()
-
-    def _authenticate_with_cognito(self, organization=None):
         """
         An API token is used to authenticate against the Pennsieve platform.
         The token that is returned from the API call will be used for all
@@ -138,20 +130,6 @@ class ClientSession(object):
         if organization is None:
             organization = claims["custom:organization_node_id"]
 
-        self._set_org_context(organization)
-
-    def _authenticate_with_jwt(self):
-        """
-        Use a JWT to make all subsequent requests to API.
-        """
-        # Force session creation:
-        self.session
-        self.token = self._jwt
-        # Get the associated user and set the org context to the preferred
-        # org set for the user. Additionally, if authentication fails at this
-        # step don't attempt to reauthenticate recursively.
-        user = self._get("/user", reauthenticate=False)
-        organization = user["preferredOrganization"]
         self._set_org_context(organization)
 
     @property
