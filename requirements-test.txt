@@ -5,4 +5,4 @@ sphinx
 numpy>=1.13
 pandas>=0.20
 sphinx_rtd_theme
--e git+git://github.com/Pennsieve/sphinx_rtd_theme.git#egg=sphinx-rtd-theme
+#-e git+git://github.com/Pennsieve/sphinx_rtd_theme.git#egg=sphinx-rtd-theme
