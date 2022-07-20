@@ -7,7 +7,7 @@ protobuf>=3.2.0
 python-jose==3.2.0
 pytz>=2016
 requests>=2.18
-rsa==4.0
+rsa>=4.0
 semver>=2.8.0
 websocket-client>=0.57.0
 
