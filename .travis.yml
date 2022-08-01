@@ -45,12 +45,7 @@ jobs:
 
     - stage: docs
       python: 3.6
-      script:
-        - cd docs
-        - make install
-        - make html
-        - make html-latest
-        - cd $TRAVIS_BUILD_DIR
+      script: skip
       deploy:
         provider: s3
         on:
