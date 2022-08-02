@@ -2,6 +2,7 @@
 from __future__ import absolute_import, division, print_function
 from builtins import object, zip
 from future.utils import PY2, as_native_str, string_types
+from warnings import warn
 
 import datetime
 import io
@@ -125,6 +126,7 @@ class Property(object):
         else:
             self.data_type = data_type
             self.value = value_as_type(value, data_type.lower())
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     def as_dict(self):
         """
@@ -173,7 +175,7 @@ def _get_all_class_args(cls):
         # get all base class argument variables
         class_args.update(_get_all_class_args(base))
 
-    # get args from this class
+    # get args from This class {self.__class__.__name__}
     spec = getfullargspec(cls.__init__)
     class_args.update(spec[0])  # arguments
     if spec[1] is not None:
@@ -195,6 +197,7 @@ class BaseNode(object):
     def __init__(self, id=None, int_id=None, *args, **kargs):
         self.id = id
         self.int_id = int_id
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     @classmethod
     def from_dict(cls, data, api=None, object_key=None):
@@ -314,6 +317,8 @@ class BaseDataNode(BaseNode):
         self.state = kwargs.pop("state", None)
         self.created_at = kwargs.pop("createdAt", None)
         self.updated_at = kwargs.pop("updatedAt", None)
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
+
 
     def update_properties(self):
         self._api.data.update_properties(self)
@@ -558,6 +563,7 @@ class BaseCollection(BaseDataNode):
         # items is None until an API response provides the item objects
         # to be parsed, which then updates this instance.
         self._items = None
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     def add(self, *items):
         """
@@ -790,6 +796,7 @@ class DataPackage(BaseDataNode):
 
     def __init__(self, name, package_type, **kwargs):
         self.storage = kwargs.pop("storage", None)
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
         super(DataPackage, self).__init__(name=name, type=package_type, **kwargs)
         # local-only attribute
         self.session = None
@@ -948,6 +955,7 @@ class File(BaseDataNode):
         self.size = size
         self.pkg_id = pkg_id
         self.local_path = None
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     def as_dict(self):
         d = super(File, self).as_dict()
@@ -1026,6 +1034,7 @@ class TimeSeries(DataPackage):
 
     def __init__(self, name, **kwargs):
         kwargs.pop("package_type", None)
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
         super(TimeSeries, self).__init__(name=name, package_type="TimeSeries", **kwargs)
 
     @property
@@ -1482,6 +1491,7 @@ class TimeSeriesChannel(BaseDataNode):
         self._pkg = None
         # sample period (in usecs)
         self._sample_period = 1.0e6 / self.rate
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     @property
     def start(self):
@@ -1658,6 +1668,7 @@ class TimeSeriesAnnotationLayer(BaseNode):
         self.name = name
         self.time_series_id = time_series_id
         self.description = description
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     def iter_annotations(self, window_size=10, channels=None):
         """
@@ -1805,6 +1816,7 @@ class TimeSeriesAnnotation(BaseNode):
         self.description = description
         self.layer_id = layer_id
         self.time_series_id = time_series_id
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     def delete(self):
         self._check_exists()
@@ -1871,6 +1883,7 @@ class User(BaseNode):
         self.authy_id = authy_id
         self.accepted_terms = ""
         self.is_super_admin = is_super_admin
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     @as_native_str()
     def __repr__(self):
@@ -1897,6 +1910,7 @@ class Organization(BaseNode):
         **kwargs
     ):
         self.storage = kwargs.pop("storage", None)
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
         super(Organization, self).__init__(*args, **kwargs)
 
         self.name = name
@@ -1940,6 +1954,7 @@ class Dataset(BaseCollection):
     ):
         kwargs.pop("package_type", None)
         kwargs.pop("type", None)
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
         super(Dataset, self).__init__(name, "DataSet", **kwargs)
         self.description = description or ""
         self._status = status
@@ -2216,6 +2231,7 @@ class Dataset(BaseCollection):
 class Collection(BaseCollection):
     def __init__(self, name, **kwargs):
         kwargs.pop("package_type", None)
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
         super(Collection, self).__init__(name, package_type="Collection", **kwargs)
 
     @property
@@ -2240,6 +2256,7 @@ class PublishInfo(BaseNode):
         self.dataset_id = dataset_id
         self.version_count = version_count
         self.last_published = last_published
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     @classmethod
     def from_dict(cls, data):
@@ -2272,6 +2289,7 @@ class UserStubDTO(BaseNode):
         self.node_id = node_id
         self.first_name = first_name
         self.last_name = last_name
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     @classmethod
     def from_dict(cls, data):
@@ -2298,6 +2316,7 @@ class DatasetStatusStub(BaseNode):
         self.id = id
         self.name = name
         self.display_name = display_name
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     @classmethod
     def from_dict(cls, data):
@@ -2324,6 +2343,7 @@ class StatusLogEntry(BaseNode):
         self.user = user
         self.status = status
         self.updated_at = updated_at
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     @classmethod
     def from_dict(cls, data):
@@ -2352,7 +2372,8 @@ class StatusLogResponse(BaseNode):
 
         self.total_count = total_count
         self.entries = entries
-
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
+ 
     @classmethod
     def from_dict(cls, data):
         return cls(
@@ -2381,6 +2402,7 @@ class UserCollaborator(BaseNode):
         self.last_name = last_name
         self.email = email
         self.role = role
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     @classmethod
     def from_dict(cls, data):
@@ -2408,6 +2430,7 @@ class TeamCollaborator(BaseNode):
         self.id = id
         self.name = name
         self.role = role
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     @classmethod
     def from_dict(cls, data):
@@ -2505,6 +2528,7 @@ class ModelPropertyType(object):
 
         self.format = format
         self.unit = unit
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     @property
     def _pennsieve_type(self):
@@ -2627,6 +2651,8 @@ class ModelPropertyEnumType(ModelPropertyType):
 
         self.multi_select = multi_select
         self.selection_type = "array" if self.multi_select else "enum"
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
+
 
     def _decode_value(self, value):
         """
@@ -2755,6 +2781,7 @@ class BaseModelProperty(object):
         self.title = title
         self.description = description
         self.required = required
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     @classmethod
     def from_tuple(cls, data):
@@ -2875,6 +2902,8 @@ class LinkedModelProperty(BaseNode):
             self.target = target
         else:
             raise Exception("'target' must be an id or a Model object")
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
+
 
     def as_dict(self):
         dct = {"name": self.name, "displayName": self.display_name, "to": self.target}
@@ -2919,6 +2948,8 @@ class BaseModelValue(object):
         self.name = name
         self.data_type = ModelPropertyType._build_from(data_type)
         self.value = value  # Decoded in @value.setter
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
+
 
     @property
     def value(self):
@@ -2977,6 +3008,7 @@ class LinkedModelValue(BaseNode):
         self.target_record_id = target_record
         self.type = link_type
         self.id = id
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     @classmethod
     def from_dict(cls, data, source_model, target_model, link_type):
@@ -3037,6 +3069,7 @@ class BaseModelNode(BaseNode):
         schema = kwargs.pop("schema", None)
         self.linked = kwargs.pop("linked", {})
 
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
         super(BaseModelNode, self).__init__(*args, **kwargs)
 
         self.schema = dict()
@@ -3313,6 +3346,7 @@ class BaseRecord(BaseNode):
         self.updated_at = kwargs.pop("updatedAt", None)
         self.updated_by = kwargs.pop("updatedBy", None)
         values = kwargs.pop("values", None)
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
         super(BaseRecord, self).__init__(*args, **kwargs)
 
@@ -3423,7 +3457,7 @@ class ModelTemplate(BaseNode):
             self.properties = ModelTemplate.properties_from_tuples(properties)
         else:
             self.properties = properties
-
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
         super(ModelTemplate, self).__init__(*args, **kwargs)
 
     @classmethod
@@ -3492,6 +3526,7 @@ class ModelValue(BaseModelValue):
 class ModelSelect(object):
     def __init__(self, *join_keys):
         self.join_keys = [target_type_string(k) for k in join_keys]
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     def as_dict(self):
         return {"Concepts": {"joinKeys": self.join_keys}}
@@ -3507,6 +3542,7 @@ class ModelFilter(object):
         self.key = key
         self.operator = operator
         self.value = value
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     def as_dict(self):
         return {
@@ -3527,6 +3563,7 @@ class ModelJoin(object):
         self.filters = [
             ModelFilter(*f) if not isinstance(f, ModelFilter) else f for f in filters
         ]
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     def as_dict(self):
         key = target_type_string(self.target)
@@ -3565,6 +3602,7 @@ class Model(BaseModelNode):
         self.state = kwargs.pop("state", None)
 
         self._logger = log.get_logger("pennsieve.models.Model")
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
         super(Model, self).__init__(
             dataset_id, name, display_name, description, locked, *args, **kwargs
@@ -4097,6 +4135,7 @@ class QueryResult(object):
         self.dataset_id = dataset_id
         self._target = target
         self._joined = joined
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     @property
     def target(self):
@@ -4218,6 +4257,8 @@ class RelationshipType(BaseModelNode):
         kwargs.pop("type", None)
         self.destination = destination
         self.source = source
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
+
         super(RelationshipType, self).__init__(
             dataset_id, name, display_name, description, locked, *args, **kwargs
         )
@@ -4419,6 +4460,7 @@ class Relationship(BaseRecord):
         self.destination = destination
 
         kwargs.pop("schemaRelationshipId", None)
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
         super(Relationship, self).__init__(dataset_id, type, *args, **kwargs)
 
     def relationship(self):
@@ -4479,6 +4521,7 @@ class ProxyInstance(BaseRecord):
     _object_key = ""
 
     def __init__(self, dataset_id, type, *args, **kwargs):
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
         super(ProxyInstance, self).__init__(dataset_id, type, *args, **kwargs)
 
     def item(self):
@@ -4508,6 +4551,7 @@ class BaseInstanceList(list):
     _accept_type = None
 
     def __init__(self, type, *args, **kwargs):
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
         super(BaseInstanceList, self).__init__(*args, **kwargs)
         assert isinstance(type, self._accept_type), "type must be type {}".format(
             self._accept_type

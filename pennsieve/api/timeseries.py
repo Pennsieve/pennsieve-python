@@ -89,6 +89,7 @@ class ChannelPage(object):
 
         # current response
         self.data = None
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     def get(self, api):
         cache_exists = False
@@ -180,6 +181,7 @@ class ChannelIterator(object):
             self.chunk_size = int(channel.rate * self.chunk_time / 1.0e6)
         self.chunk = None
         self.offset = usecs_to_datetime(self.start)
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     @require_extension
     def get_chunks(self):

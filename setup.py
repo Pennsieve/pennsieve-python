@@ -27,7 +27,7 @@ setup(
     name="pennsieve",
     version=version,
     author="Pennsieve, Inc.",
-    author_email="joost@pennsieve.com",
+    author_email="joostw@upenn.edu",
     description="Python client for the Pennsieve Platform",
     long_description=long_description,
     packages=find_packages(),
@@ -45,11 +45,11 @@ setup(
     keywords="pennsieve client rest api",
     url="https://github.com/Pennsieve/pennsieve-python",
     project_urls={
-        "Pennsieve": "https://www.pennsieve.com",
+        "Pennsieve": "https://app.pennsieve.io",
         # Do not remove or rename this "Documentation" URL: it is used by
         # the Sphinx theme to generate links to previous doc versions.
         # However, you can change the URL with no issues.
-        "Documentation": "https://developer.pennsieve.io/python",
+        "Documentation": "https://docs.pennsieve.io/",
         "Bug Reports": "https://github.com/Pennsieve/pennsieve-python/issues",
     },
     classifiers=[

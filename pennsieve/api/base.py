@@ -26,6 +26,7 @@ class APIBase(object):
         # api session
         self.session = session
         self._logger = log.get_logger("pennsieve.api")
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     def _get_id(self, thing):
         """

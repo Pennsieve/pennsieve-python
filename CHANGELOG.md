@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 Documentation at <https://developer.pennsieve.io/python/>
 
+## 6.2.0
+
+### Breaking Changes
+- Deprecation warning for all classes due to transitioning to the new Pennsieve agent (version 7.0.0).
+- All the classes of the current library will be deprecated on 2022-11-01.
+- Pennsieve class functions and API of the agent will be significantly changed.
+
+### Fixed
+- Fixing the rsa 4.0.0 dependency error.
+- Removing documentation and rsa build errors.
+
 
 ## 6.1.2
 

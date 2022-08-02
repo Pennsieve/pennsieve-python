@@ -19,7 +19,6 @@ from requests.packages.urllib3.util.retry import Retry
 from pennsieve import log
 from pennsieve.models import User
 
-
 class UnauthorizedException(Exception):
     pass
 
@@ -33,6 +32,7 @@ class PennsieveRequest(object):
         self._response = None
 
         self._logger = log.get_logger("pennsieve.base.PennsieveRequest")
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     def raise_for_status(self, resp):
         try:
@@ -83,6 +83,7 @@ class ClientSession(object):
         self._organization = None
         self.profile = None
         self.settings = settings
+        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
 
     def authenticate(self, organization=None):
         """
