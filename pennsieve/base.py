@@ -55,12 +55,12 @@ class PennsieveRequest(object):
         if resp.status_code in [requests.codes.forbidden, requests.codes.unauthorized]:
             raise UnauthorizedException()
 
-        if not resp.status_code in [requests.codes.ok, requests.codes.created]:
+        if resp.status_code not in [requests.codes.ok, requests.codes.created]:
             self.raise_for_status(resp)
         try:
             # return object from json
             resp.data = json.loads(resp.text)
-        except:
+        except BaseException:
             # if not json, still return response content
             resp.data = resp.text
 

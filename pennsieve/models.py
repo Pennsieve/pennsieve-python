@@ -338,7 +338,7 @@ class BaseDataNode(BaseNode):
         # Note: Property is stored as dict of key:properties-entry to enable
         #       over-write of properties values based on key
         for entry in entries:
-            assert type(entry) is Property, "Properties wrong type"
+            assert isinstance(entry, Property), "Properties wrong type"
             if entry.category not in self._properties:
                 self._properties[entry.category] = {}
             self._properties[entry.category].update({entry.key: entry})
@@ -519,7 +519,7 @@ class BaseDataNode(BaseNode):
         item = super(BaseDataNode, cls).from_dict(data, *args, **kwargs)
         try:
             item.state = data["content"]["state"]
-        except:
+        except BaseException:
             pass
 
         item.owner_id = (
@@ -1293,7 +1293,6 @@ class TimeSeries(DataPackage):
         return self._api.timeseries.process_annotation_file(self, file)
 
     def append_files(self, *files, **kwargs):
-
         """
         Append files to this timeseries package.
 
@@ -1509,7 +1508,7 @@ class TimeSeriesChannel(BaseDataNode):
             category="Pennsieve",
         )
 
-        ###  local-only
+        # local-only
         # parent package
         self._pkg = None
         # sample period (in usecs)
@@ -2880,17 +2879,17 @@ class BaseModelProperty(object):
 
         try:
             display_name = data[2]
-        except:
+        except BaseException:
             display_name = name
 
         try:
             title = data[3]
-        except:
+        except BaseException:
             title = False
 
         try:
             required = data[4]
-        except:
+        except BaseException:
             required = False
 
         return cls(
@@ -3523,7 +3522,7 @@ class BaseRecord(BaseNode):
 
         try:
             self.update()
-        except:
+        except BaseException:
             raise Exception("local object updated, but failed to update remotely")
 
     def as_dict(self):
@@ -4170,7 +4169,7 @@ class Record(BaseRecord):
         # Then assume link is a linked property name:
         try:
             prop_id = self.model.get_linked_property(link).id
-        except:
+        except BaseException:
             raise Exception(
                 "No link found with a name or ID matching '{}'".format(link)
             )

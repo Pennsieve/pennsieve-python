@@ -183,7 +183,7 @@ class Pennsieve(object):
         """
         try:
             return self._api.core.get(id, update=update)
-        except:
+        except BaseException:
             self._logger.info(
                 "Unable to retrieve object"
                 "\n\nAcceptable objects for get() are:"
@@ -240,7 +240,7 @@ class Pennsieve(object):
         """
         try:
             return self._api.datasets.get(name_or_id)
-        except:
+        except BaseException:
             pass
 
         result = self._api.datasets.get_by_name_or_id(name_or_id)

@@ -220,7 +220,7 @@ class Settings(object):
         try:
             # first apply config default profile
             self._switch_profile(self.config["global"]["default_profile"])
-        except:
+        except BaseException:
             self._switch_profile("global")
 
         # apply PENNSIEVE_PROFILE
