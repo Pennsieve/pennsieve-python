@@ -33,7 +33,11 @@ class PennsieveRequest(object):
         self._response = None
 
         self._logger = log.get_logger("pennsieve.base.PennsieveRequest")
-        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     def raise_for_status(self, resp):
         try:
@@ -46,8 +50,8 @@ class PennsieveRequest(object):
         return
 
     def _handle_response(self, resp):
-        self._logger.debug(u"resp = {}".format(resp))
-        self._logger.debug(u"resp.content = {}".format(resp.text))  # decoded unicode
+        self._logger.debug("resp = {}".format(resp))
+        self._logger.debug("resp.content = {}".format(resp.text))  # decoded unicode
         if resp.status_code in [requests.codes.forbidden, requests.codes.unauthorized]:
             raise UnauthorizedException()
 
@@ -84,7 +88,11 @@ class ClientSession(object):
         self._organization = None
         self.profile = None
         self.settings = settings
-        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     def authenticate(self, organization=None):
         """

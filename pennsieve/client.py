@@ -88,7 +88,7 @@ class Pennsieve(object):
         host=None,
         model_service_host=None,
         env_override=True,
-        **overrides
+        **overrides,
     ):
 
         self._logger = log.get_logger("pennsieve.client.Pennsieve")
@@ -138,7 +138,11 @@ class Pennsieve(object):
         )
 
         self._api._context = self._api.organizations.get(self._api._organization)
-        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated and API will significantly change; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated and API will significantly change; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     @property
     def context(self):

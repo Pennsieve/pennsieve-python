@@ -108,7 +108,11 @@ class AgentListener(object):
         self.port = port
         self.proc = None
         self.devnull = None
-        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     def __enter__(self):
         check_port(self.port)
@@ -316,7 +320,11 @@ class UploadManager(object):
         # Keep track of whether progress bars have already been rendered so
         # we know if/what to erase when re-drawing
         self.lines_on_screen = 0
-        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     def track_file(self, file, import_id, ours):
         progress = FileProgress(file, import_id, ours)
@@ -416,7 +424,11 @@ class FileProgress(object):
         self.done = False
         self.errored = False
         self.queued = False
-        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     @property
     def percent_done(self):

@@ -72,7 +72,11 @@ class ModelsAPI(ModelsAPIBase):
         self.relationships = ModelRelationshipsAPI(session)
         self.proxies = ModelProxiesAPI(session)
         self.query = ModelQueryAPI(session)
-        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         super(ModelsAPI, self).__init__(session)
 
     def get_properties(self, dataset, concept):
@@ -689,7 +693,11 @@ class ModelRelationshipsAPI(ModelsAPIBase):
 
     def __init__(self, session):
         self.instances = ModelRelationshipInstancesAPI(session)
-        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         super(ModelRelationshipsAPI, self).__init__(session)
 
     def create(self, dataset, relationship):
@@ -944,7 +952,11 @@ class ModelQuery(object):
         self._joins = []
         self._offset = 0
         self._limit = 50
-        warn(f'Pennsieve is transitioning to the new agent. This class \'{self.__class__.__name__}\' will be deprecated; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     def select(self, *join_keys):
         """
