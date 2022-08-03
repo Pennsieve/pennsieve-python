@@ -5,6 +5,8 @@ from __future__ import absolute_import, division, print_function
 from builtins import object
 from future.utils import as_native_str
 
+from warnings import warn
+
 from . import log
 from .api.concepts import (
     ModelRelationshipInstancesAPI,
@@ -21,7 +23,7 @@ from .api.user import UserAPI
 from .base import ClientSession
 from .config import Settings
 from .models import Dataset, ModelTemplate
-from warnings import warn
+
 
 class Pennsieve(object):
     """

@@ -144,9 +144,9 @@ Additional environment variables and their corresponding config options:
 
 from __future__ import absolute_import, division, print_function
 
-from warnings import warn
 import configparser
 import os
+from warnings import warn
 
 PENNSIEVE_DIR_DEFAULT = os.path.join(os.path.expanduser("~"), ".pennsieve")
 CACHE_DIR_DEFAULT = os.path.join(PENNSIEVE_DIR_DEFAULT, "cache")

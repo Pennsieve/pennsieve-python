@@ -2,7 +2,6 @@
 from __future__ import absolute_import, division, print_function
 from builtins import object, zip
 from future.utils import PY2, as_native_str, string_types
-from warnings import warn
 
 import datetime
 import io
@@ -10,6 +9,7 @@ import os
 import re
 import sys
 from uuid import uuid4
+from warnings import warn
 
 import dateutil
 import pytz

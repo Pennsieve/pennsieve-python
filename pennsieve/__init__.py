@@ -1,4 +1,5 @@
-from warnings import warn 
+from warnings import warn
+
 from .client import Pennsieve
 from .config import DEFAULTS as DEFAULT_SETTINGS
 from .config import Settings
@@ -26,7 +27,6 @@ from .models import (
     TimeSeriesAnnotation,
     TimeSeriesChannel,
 )
-
 
 warn('Pennsieve is transitioning to the new agent. The majority of the existing classes and functions will be deprecated, API will significantly change; version=7.0.0; date=2022-11-01.', DeprecationWarning, stacklevel=2)  
 

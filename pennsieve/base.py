@@ -19,6 +19,7 @@ from requests.packages.urllib3.util.retry import Retry
 from pennsieve import log
 from pennsieve.models import User
 
+
 class UnauthorizedException(Exception):
     pass
 
