@@ -10,6 +10,7 @@ import math
 import re
 from concurrent.futures import ThreadPoolExecutor
 from itertools import count, islice
+from warnings import warn
 
 import requests
 

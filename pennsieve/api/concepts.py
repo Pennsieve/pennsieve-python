@@ -4,6 +4,7 @@ from future.utils import string_types
 
 import itertools
 import json
+from warnings import warn
 
 import requests
 
