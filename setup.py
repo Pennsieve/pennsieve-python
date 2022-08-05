@@ -26,7 +26,7 @@ with io.open(path.join(here, "README.rst"), encoding="utf-8") as f:
 setup(
     name="pennsieve",
     version=version,
-    author="Pennsieve, Inc.",
+    author="Pennsieve",
     author_email="joostw@upenn.edu",
     description="Python client for the Pennsieve Platform",
     long_description=long_description,
