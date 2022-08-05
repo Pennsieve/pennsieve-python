@@ -7,12 +7,12 @@ from pennsieve import Pennsieve
 
 
 def current_ts():
-    """ Gets current timestamp """
+    """Gets current timestamp"""
     return int(round(time.time() * 1000))
 
 
 def get_test_client(profile=None, api_token=None, api_secret=None, **overrides):
-    """ Utility function to get a Pennsieve client object """
+    """Utility function to get a Pennsieve client object"""
     ps = Pennsieve(
         profile=profile, api_token=api_token, api_secret=api_secret, **overrides
     )

@@ -309,7 +309,7 @@ class ModelsAPI(ModelsAPIBase):
         return [DataPackage.from_dict(pkg, api=self.session) for r, pkg in resp]
 
     def get_connected(self, dataset, model):
-        """ Return a list of concepts related to the given model """
+        """Return a list of concepts related to the given model"""
         dataset_id = self._get_id(dataset)
         model_id = self._get_id(model)
         resp = self._get(
@@ -329,7 +329,7 @@ class ModelsAPI(ModelsAPIBase):
         return {c.type: c for c in concepts}
 
     def get_related(self, dataset, concept):
-        """ Return all SchemaRelationships and the Concepts they point to """
+        """Return all SchemaRelationships and the Concepts they point to"""
         dataset_id = self._get_id(dataset)
         concept_id = self._get_id(concept)
         resp = self._get(

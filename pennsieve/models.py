@@ -2061,7 +2061,7 @@ class Dataset(BaseCollection):
         return self._api.concepts.get_topology(self)
 
     def get_graph_summary(self):
-        """ Returns summary metrics about the knowledge graph """
+        """Returns summary metrics about the knowledge graph"""
         return self._api.concepts.get_summary(self)
 
     def published(self):
