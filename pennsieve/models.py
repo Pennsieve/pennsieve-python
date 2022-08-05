@@ -1030,8 +1030,10 @@ class File(BaseDataNode):
 
     @as_native_str()
     def __repr__(self):
-        return "<File name='{}' type='{}' key='{}' bucket='{}' size='{}' id='{}'>".format(
-            self.name, self.type, self.s3_key, self.s3_bucket, self.size, self.id
+        return (
+            "<File name='{}' type='{}' key='{}' bucket='{}' size='{}' id='{}'>".format(
+                self.name, self.type, self.s3_key, self.s3_bucket, self.size, self.id
+            )
         )
 
 

@@ -171,7 +171,7 @@ def create_agent_socket(port):
             return create_connection(socket_address(port))
         except socket.error as e:
             if e.errno == errno.ECONNREFUSED:  # ConnectionRefusedError for Python 3
-                sleep_time = 2 ** i
+                sleep_time = 2**i
                 logger.debug("Connection refused - sleeping for %s seconds", sleep_time)
                 sleep(sleep_time)
             else:

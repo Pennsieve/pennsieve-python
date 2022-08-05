@@ -2,10 +2,10 @@
 from __future__ import absolute_import, division, print_function
 from builtins import dict, object
 from future.utils import raise_from
-from warnings import warn
 
 import base64
 import json
+from warnings import warn
 
 import boto3
 import requests
