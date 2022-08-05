@@ -36,6 +36,7 @@ jobs:
 
     - stage: test Python 2.7
       python: 2.7
+      script skip
 
     - stage: test Python 3.5
       python: 3.5

@@ -12,6 +12,7 @@ Documentation at <https://developer.pennsieve.io/python/>
 - Deprecation warning for all classes due to transitioning to the new Pennsieve agent (version 7.0.0).
 - All the classes of the current library will be deprecated on 2022-11-01.
 - Pennsieve class functions and API of the agent will be significantly changed.
+- Pennsieve no longer supports Python2.7
 
 ### Fixed
 - Fixing the rsa 4.0.0 dependency error.
