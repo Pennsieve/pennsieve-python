@@ -34,9 +34,6 @@ jobs:
         - pip install -r requirements-format.txt
         - make lint
 
-    - stage: test Python 3.5
-      python: 3.5
-
     - stage: test Python 3.6
       python: 3.6
 

@@ -166,7 +166,7 @@ latex_documents = [
         "Pennsieve Documentation",
         "support@pennsieve.com",
         "manual",
-    ),
+    )
 ]
 
 
@@ -193,5 +193,5 @@ texinfo_documents = [
         "Pennsieve",
         "Python client for accessing Pennsieve platform",
         "Utilities",
-    ),
+    )
 ]

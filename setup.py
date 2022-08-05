@@ -34,10 +34,8 @@ setup(
     package_dir={"pennsieve": "pennsieve"},
     setup_requires=["cython"],
     install_requires=reqs,
-    extras_require={
-        "data": ["numpy>=1.13", "pandas>=0.20"],
-    },
-    python_requires=">=3.5, <4.0",
+    extras_require={"data": ["numpy>=1.13", "pandas>=0.20"]},
+    python_requires=">=3.6, <4.0",
     entry_points={
         "console_scripts": ["pennsieve-profile=pennsieve.cli.pennsieve_profile:main"]
     },
@@ -55,7 +53,6 @@ setup(
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Topic :: Utilities",
-        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
