@@ -8,11 +8,12 @@ import platform
 import socket
 import subprocess
 import sys
+import semver
+
 from collections import OrderedDict
 from time import sleep
 from warnings import warn
 
-import semver
 
 from pennsieve.log import get_log_level, get_logger
 from pennsieve.models import Collection, DataPackage, Dataset
