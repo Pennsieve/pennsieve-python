@@ -34,23 +34,21 @@ jobs:
         - pip install -r requirements-format.txt
         - make lint
 
-    - stage: test Python 2.7
-      python: 2.7
+    - stage: test Python 3.6
+      python: 3.6
 
-    - stage: test Python 3.5
-      python: 3.5
+    - stage: test Python 3.7
+      python: 3.7
 
     - stage: test Python 3.8
       python: 3.8
 
+    - stage: test Python 3.9
+      python: 3.9
+
     - stage: docs
       python: 3.6
-      script:
-        - cd docs
-        - make install
-        - make html
-        - make html-latest
-        - cd $TRAVIS_BUILD_DIR
+      script: skip
       deploy:
         provider: s3
         on:

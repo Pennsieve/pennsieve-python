@@ -10,6 +10,7 @@ import subprocess
 import sys
 from collections import OrderedDict
 from time import sleep
+from warnings import warn
 
 import semver
 
@@ -108,6 +109,11 @@ class AgentListener(object):
         self.port = port
         self.proc = None
         self.devnull = None
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     def __enter__(self):
         check_port(self.port)
@@ -166,7 +172,7 @@ def create_agent_socket(port):
             return create_connection(socket_address(port))
         except socket.error as e:
             if e.errno == errno.ECONNREFUSED:  # ConnectionRefusedError for Python 3
-                sleep_time = 2 ** i
+                sleep_time = 2**i
                 logger.debug("Connection refused - sleeping for %s seconds", sleep_time)
                 sleep(sleep_time)
             else:
@@ -315,6 +321,11 @@ class UploadManager(object):
         # Keep track of whether progress bars have already been rendered so
         # we know if/what to erase when re-drawing
         self.lines_on_screen = 0
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     def track_file(self, file, import_id, ours):
         progress = FileProgress(file, import_id, ours)
@@ -414,6 +425,11 @@ class FileProgress(object):
         self.done = False
         self.errored = False
         self.queued = False
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     @property
     def percent_done(self):

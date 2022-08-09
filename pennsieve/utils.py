@@ -24,7 +24,7 @@ def value_as_type(value, dtype):
             return infer_epoch_msecs(value)
         if dtype == "boolean":
             return value.lower() == "true"
-    except:
+    except BaseException:
         raise Exception("Unable to set value={} as type {}".format(value, dtype))
 
 

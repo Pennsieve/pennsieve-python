@@ -9,6 +9,7 @@ import os
 import re
 import sys
 from uuid import uuid4
+from warnings import warn
 
 import dateutil
 import pytz
@@ -125,6 +126,11 @@ class Property(object):
         else:
             self.data_type = data_type
             self.value = value_as_type(value, data_type.lower())
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     def as_dict(self):
         """
@@ -158,7 +164,7 @@ class Property(object):
 
     @as_native_str()
     def __repr__(self):
-        return u"<Property key='{}' value='{}' type='{}' category='{}'>".format(
+        return "<Property key='{}' value='{}' type='{}' category='{}'>".format(
             self.key, self.value, self.data_type, self.category
         )
 
@@ -173,7 +179,7 @@ def _get_all_class_args(cls):
         # get all base class argument variables
         class_args.update(_get_all_class_args(base))
 
-    # get args from this class
+    # get args from This class {self.__class__.__name__}
     spec = getfullargspec(cls.__init__)
     class_args.update(spec[0])  # arguments
     if spec[1] is not None:
@@ -195,6 +201,11 @@ class BaseNode(object):
     def __init__(self, id=None, int_id=None, *args, **kargs):
         self.id = id
         self.int_id = int_id
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     @classmethod
     def from_dict(cls, data, api=None, object_key=None):
@@ -293,7 +304,7 @@ class BaseDataNode(BaseNode):
         dataset_id=None,
         id=None,
         provenance_id=None,
-        **kwargs
+        **kwargs,
     ):
 
         super(BaseDataNode, self).__init__(id=id)
@@ -314,6 +325,11 @@ class BaseDataNode(BaseNode):
         self.state = kwargs.pop("state", None)
         self.created_at = kwargs.pop("createdAt", None)
         self.updated_at = kwargs.pop("updatedAt", None)
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     def update_properties(self):
         self._api.data.update_properties(self)
@@ -322,7 +338,7 @@ class BaseDataNode(BaseNode):
         # Note: Property is stored as dict of key:properties-entry to enable
         #       over-write of properties values based on key
         for entry in entries:
-            assert type(entry) is Property, "Properties wrong type"
+            assert isinstance(entry, Property), "Properties wrong type"
             if entry.category not in self._properties:
                 self._properties[entry.category] = {}
             self._properties[entry.category].update({entry.key: entry})
@@ -503,14 +519,12 @@ class BaseDataNode(BaseNode):
         item = super(BaseDataNode, cls).from_dict(data, *args, **kwargs)
         try:
             item.state = data["content"]["state"]
-        except:
+        except BaseException:
             pass
 
         item.owner_id = (
             data.get("owner")
-            or data.get(
-                "ownerId",
-            )
+            or data.get("ownerId")
             or data.get("content", {}).get("ownerId")  # For packages
         )
 
@@ -558,6 +572,11 @@ class BaseCollection(BaseDataNode):
         # items is None until an API response provides the item objects
         # to be parsed, which then updates this instance.
         self._items = None
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     def add(self, *items):
         """
@@ -626,12 +645,12 @@ class BaseCollection(BaseDataNode):
         Prints a tree of **all** items inside object.
         """
         self._check_exists()
-        print(u"{}{}".format(" " * indent, self))
+        print("{}{}".format(" " * indent, self))
         for item in self.items:
             if isinstance(item, BaseCollection):
                 item.print_tree(indent=indent + 2)
             else:
-                print(u"{}{}".format(" " * (indent + 2), item))
+                print("{}{}".format(" " * (indent + 2), item))
 
     def get_items_by_name(self, name):
         """
@@ -771,7 +790,7 @@ class BaseCollection(BaseDataNode):
 
     @as_native_str()
     def __repr__(self):
-        return u"<BaseCollection name='{}' id='{}'>".format(self.name, self.id)
+        return "<BaseCollection name='{}' id='{}'>".format(self.name, self.id)
 
 
 class DataPackage(BaseDataNode):
@@ -790,6 +809,11 @@ class DataPackage(BaseDataNode):
 
     def __init__(self, name, package_type, **kwargs):
         self.storage = kwargs.pop("storage", None)
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         super(DataPackage, self).__init__(name=name, type=package_type, **kwargs)
         # local-only attribute
         self.session = None
@@ -911,7 +935,7 @@ class DataPackage(BaseDataNode):
 
     @as_native_str()
     def __repr__(self):
-        return u"<DataPackage name='{}' id='{}'>".format(self.name, self.id)
+        return "<DataPackage name='{}' id='{}'>".format(self.name, self.id)
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -948,6 +972,11 @@ class File(BaseDataNode):
         self.size = size
         self.pkg_id = pkg_id
         self.local_path = None
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     def as_dict(self):
         d = super(File, self).as_dict()
@@ -1002,7 +1031,7 @@ class File(BaseDataNode):
     @as_native_str()
     def __repr__(self):
         return (
-            u"<File name='{}' type='{}' key='{}' bucket='{}' size='{}' id='{}'>".format(
+            "<File name='{}' type='{}' key='{}' bucket='{}' size='{}' id='{}'>".format(
                 self.name, self.type, self.s3_key, self.s3_bucket, self.size, self.id
             )
         )
@@ -1026,6 +1055,11 @@ class TimeSeries(DataPackage):
 
     def __init__(self, name, **kwargs):
         kwargs.pop("package_type", None)
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         super(TimeSeries, self).__init__(name=name, package_type="TimeSeries", **kwargs)
 
     @property
@@ -1261,7 +1295,6 @@ class TimeSeries(DataPackage):
         return self._api.timeseries.process_annotation_file(self, file)
 
     def append_files(self, *files, **kwargs):
-
         """
         Append files to this timeseries package.
 
@@ -1422,7 +1455,7 @@ class TimeSeries(DataPackage):
 
     @as_native_str()
     def __repr__(self):
-        return u"<TimeSeries name='{}' id='{}'>".format(self.name, self.id)
+        return "<TimeSeries name='{}' id='{}'>".format(self.name, self.id)
 
 
 class TimeSeriesChannel(BaseDataNode):
@@ -1453,7 +1486,7 @@ class TimeSeriesChannel(BaseDataNode):
         group="default",
         last_annot=0,
         spike_duration=None,
-        **kwargs
+        **kwargs,
     ):
         self.channel_type = channel_type.upper()
 
@@ -1477,11 +1510,16 @@ class TimeSeriesChannel(BaseDataNode):
             category="Pennsieve",
         )
 
-        ###  local-only
+        # local-only
         # parent package
         self._pkg = None
         # sample period (in usecs)
         self._sample_period = 1.0e6 / self.rate
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     @property
     def start(self):
@@ -1635,7 +1673,7 @@ class TimeSeriesChannel(BaseDataNode):
 
     @as_native_str()
     def __repr__(self):
-        return u"<TimeSeriesChannel name='{}' id='{}'>".format(self.name, self.id)
+        return "<TimeSeriesChannel name='{}' id='{}'>".format(self.name, self.id)
 
 
 class TimeSeriesAnnotationLayer(BaseNode):
@@ -1658,6 +1696,11 @@ class TimeSeriesAnnotationLayer(BaseNode):
         self.name = name
         self.time_series_id = time_series_id
         self.description = description
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     def iter_annotations(self, window_size=10, channels=None):
         """
@@ -1760,7 +1803,7 @@ class TimeSeriesAnnotationLayer(BaseNode):
 
     @as_native_str()
     def __repr__(self):
-        return u"<TimeSeriesAnnotationLayer name='{}' id='{}'>".format(
+        return "<TimeSeriesAnnotationLayer name='{}' id='{}'>".format(
             self.name, self.id
         )
 
@@ -1793,7 +1836,7 @@ class TimeSeriesAnnotation(BaseNode):
         layer_id=None,
         time_series_id=None,
         description=None,
-        **kwargs
+        **kwargs,
     ):
         self.user_id = kwargs.pop("userId", None)
         super(TimeSeriesAnnotation, self).__init__(**kwargs)
@@ -1805,6 +1848,11 @@ class TimeSeriesAnnotation(BaseNode):
         self.description = description
         self.layer_id = layer_id
         self.time_series_id = time_series_id
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     def delete(self):
         self._check_exists()
@@ -1828,7 +1876,7 @@ class TimeSeriesAnnotation(BaseNode):
     @as_native_str()
     def __repr__(self):
         date = datetime.datetime.fromtimestamp(self.start / 1e6)
-        return u"<TimeSeriesAnnotation label='{}' layer='{}' start='{}'>".format(
+        return "<TimeSeriesAnnotation label='{}' layer='{}' start='{}'>".format(
             self.label, self.layer_id, date.isoformat()
         )
 
@@ -1855,7 +1903,7 @@ class User(BaseNode):
         color=None,
         is_super_admin=False,
         *args,
-        **kwargs
+        **kwargs,
     ):
         kwargs.pop("preferredOrganization", None)
         self.storage = kwargs.pop("storage", None)
@@ -1871,10 +1919,15 @@ class User(BaseNode):
         self.authy_id = authy_id
         self.accepted_terms = ""
         self.is_super_admin = is_super_admin
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     @as_native_str()
     def __repr__(self):
-        return u"<User email='{}' id='{}'>".format(self.email, self.id)
+        return "<User email='{}' id='{}'>".format(self.email, self.id)
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1894,9 +1947,14 @@ class Organization(BaseNode):
         features=None,
         subscription_state=None,
         *args,
-        **kwargs
+        **kwargs,
     ):
         self.storage = kwargs.pop("storage", None)
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         super(Organization, self).__init__(*args, **kwargs)
 
         self.name = name
@@ -1920,7 +1978,7 @@ class Organization(BaseNode):
 
     @as_native_str()
     def __repr__(self):
-        return u"<Organization name='{}' id='{}'>".format(self.name, self.id)
+        return "<Organization name='{}' id='{}'>".format(self.name, self.id)
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1936,10 +1994,15 @@ class Dataset(BaseCollection):
         status=None,
         tags=None,
         automatically_process_packages=False,
-        **kwargs
+        **kwargs,
     ):
         kwargs.pop("package_type", None)
         kwargs.pop("type", None)
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         super(Dataset, self).__init__(name, "DataSet", **kwargs)
         self.description = description or ""
         self._status = status
@@ -1960,7 +2023,7 @@ class Dataset(BaseCollection):
 
     @as_native_str()
     def __repr__(self):
-        return u"<Dataset name='{}' id='{}'>".format(self.name, self.id)
+        return "<Dataset name='{}' id='{}'>".format(self.name, self.id)
 
     @property
     def status(self):
@@ -1996,7 +2059,7 @@ class Dataset(BaseCollection):
         return self._api.concepts.get_topology(self)
 
     def get_graph_summary(self):
-        """ Returns summary metrics about the knowledge graph """
+        """Returns summary metrics about the knowledge graph"""
         return self._api.concepts.get_summary(self)
 
     def published(self):
@@ -2148,7 +2211,7 @@ class Dataset(BaseCollection):
             display_name=display_name if display_name else name,
             description=description,
             schema=schema,
-            **kwargs
+            **kwargs,
         )
         return self._api.concepts.create(self.id, c)
 
@@ -2177,7 +2240,7 @@ class Dataset(BaseCollection):
             source=source,
             destination=destination,
             schema=schema,
-            **kwargs
+            **kwargs,
         )
         return self._api.concepts.relationships.create(self.id, r)
 
@@ -2216,6 +2279,11 @@ class Dataset(BaseCollection):
 class Collection(BaseCollection):
     def __init__(self, name, **kwargs):
         kwargs.pop("package_type", None)
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         super(Collection, self).__init__(name, package_type="Collection", **kwargs)
 
     @property
@@ -2224,7 +2292,7 @@ class Collection(BaseCollection):
 
     @as_native_str()
     def __repr__(self):
-        return u"<Collection name='{}' id='{}'>".format(self.name, self.id)
+        return "<Collection name='{}' id='{}'>".format(self.name, self.id)
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2240,6 +2308,11 @@ class PublishInfo(BaseNode):
         self.dataset_id = dataset_id
         self.version_count = version_count
         self.last_published = last_published
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     @classmethod
     def from_dict(cls, data):
@@ -2253,7 +2326,7 @@ class PublishInfo(BaseNode):
 
     @as_native_str()
     def __repr__(self):
-        return u"<PublishInfo status='{}' dataset_id='{}' version_count='{}' last_published='{}' doi='{}'>".format(
+        return "<PublishInfo status='{}' dataset_id='{}' version_count='{}' last_published='{}' doi='{}'>".format(
             self.status,
             self.dataset_id,
             self.version_count,
@@ -2272,6 +2345,11 @@ class UserStubDTO(BaseNode):
         self.node_id = node_id
         self.first_name = first_name
         self.last_name = last_name
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     @classmethod
     def from_dict(cls, data):
@@ -2283,7 +2361,7 @@ class UserStubDTO(BaseNode):
 
     @as_native_str()
     def __repr__(self):
-        return u"<User node_id='{}' first_name='{}' last_name='{}' >".format(
+        return "<User node_id='{}' first_name='{}' last_name='{}' >".format(
             self.node_id, self.first_name, self.last_name
         )
 
@@ -2298,6 +2376,11 @@ class DatasetStatusStub(BaseNode):
         self.id = id
         self.name = name
         self.display_name = display_name
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     @classmethod
     def from_dict(cls, data):
@@ -2309,7 +2392,7 @@ class DatasetStatusStub(BaseNode):
 
     @as_native_str()
     def __repr__(self):
-        return u"<DatasetStatus id='{}' name='{}' display_name='{}'>".format(
+        return "<DatasetStatus id='{}' name='{}' display_name='{}'>".format(
             self.id, self.name, self.display_name
         )
 
@@ -2324,6 +2407,11 @@ class StatusLogEntry(BaseNode):
         self.user = user
         self.status = status
         self.updated_at = updated_at
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     @classmethod
     def from_dict(cls, data):
@@ -2335,7 +2423,7 @@ class StatusLogEntry(BaseNode):
 
     @as_native_str()
     def __repr__(self):
-        return u"<StatusLogEntry user='{}' status='{}' updated_at='{}' >".format(
+        return "<StatusLogEntry user='{}' status='{}' updated_at='{}' >".format(
             self.user, self.status, self.updated_at
         )
 
@@ -2352,6 +2440,11 @@ class StatusLogResponse(BaseNode):
 
         self.total_count = total_count
         self.entries = entries
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     @classmethod
     def from_dict(cls, data):
@@ -2364,7 +2457,7 @@ class StatusLogResponse(BaseNode):
 
     @as_native_str()
     def __repr__(self):
-        return u"<StatusLogResponse limit='{}' offset='{}' total_count='{}' entries='{}' >".format(
+        return "<StatusLogResponse limit='{}' offset='{}' total_count='{}' entries='{}' >".format(
             self.limit, self.offset, self.total_count, self.entries
         )
 
@@ -2381,6 +2474,11 @@ class UserCollaborator(BaseNode):
         self.last_name = last_name
         self.email = email
         self.role = role
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     @classmethod
     def from_dict(cls, data):
@@ -2398,7 +2496,7 @@ class UserCollaborator(BaseNode):
 
     @as_native_str()
     def __repr__(self):
-        return u"<UserCollaborator name='{}' email='{}' role='{}' id='{}'>".format(
+        return "<UserCollaborator name='{}' email='{}' role='{}' id='{}'>".format(
             self.name, self.email, self.role, self.id
         )
 
@@ -2408,6 +2506,11 @@ class TeamCollaborator(BaseNode):
         self.id = id
         self.name = name
         self.role = role
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     @classmethod
     def from_dict(cls, data):
@@ -2415,7 +2518,7 @@ class TeamCollaborator(BaseNode):
 
     @as_native_str()
     def __repr__(self):
-        return u"<TeamCollaborator name='{}' role='{}' id='{}'>".format(
+        return "<TeamCollaborator name='{}' role='{}' id='{}'>".format(
             self.name, self.role, self.id
         )
 
@@ -2505,6 +2608,11 @@ class ModelPropertyType(object):
 
         self.format = format
         self.unit = unit
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     @property
     def _pennsieve_type(self):
@@ -2596,7 +2704,7 @@ class ModelPropertyType(object):
 
     @as_native_str()
     def __repr__(self):
-        return u"<ModelPropertyType data_type='{}' format='{}' unit='{}'".format(
+        return "<ModelPropertyType data_type='{}' format='{}' unit='{}'".format(
             self.data_type, self.format, self.unit
         )
 
@@ -2627,6 +2735,11 @@ class ModelPropertyEnumType(ModelPropertyType):
 
         self.multi_select = multi_select
         self.selection_type = "array" if self.multi_select else "enum"
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     def _decode_value(self, value):
         """
@@ -2699,7 +2812,7 @@ class ModelPropertyEnumType(ModelPropertyType):
 
     @as_native_str()
     def __repr__(self):
-        return u"<ModelPropertyEnumType data_type='{}' format='{}' unit='{}' enum='{}'".format(
+        return "<ModelPropertyEnumType data_type='{}' format='{}' unit='{}' enum='{}'".format(
             self.data_type, self.format, self.unit, self.enum
         )
 
@@ -2755,6 +2868,11 @@ class BaseModelProperty(object):
         self.title = title
         self.description = description
         self.required = required
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     @classmethod
     def from_tuple(cls, data):
@@ -2763,17 +2881,17 @@ class BaseModelProperty(object):
 
         try:
             display_name = data[2]
-        except:
+        except BaseException:
             display_name = name
 
         try:
             title = data[3]
-        except:
+        except BaseException:
             title = False
 
         try:
             required = data[4]
-        except:
+        except BaseException:
             required = False
 
         return cls(
@@ -2849,7 +2967,7 @@ class BaseModelProperty(object):
 
     @as_native_str()
     def __repr__(self):
-        return u"<BaseModelProperty name='{}' {}>".format(self.name, self.type)
+        return "<BaseModelProperty name='{}' {}>".format(self.name, self.type)
 
 
 class LinkedModelProperty(BaseNode):
@@ -2875,6 +2993,11 @@ class LinkedModelProperty(BaseNode):
             self.target = target
         else:
             raise Exception("'target' must be an id or a Model object")
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     def as_dict(self):
         dct = {"name": self.name, "displayName": self.display_name, "to": self.target}
@@ -2919,6 +3042,11 @@ class BaseModelValue(object):
         self.name = name
         self.data_type = ModelPropertyType._build_from(data_type)
         self.value = value  # Decoded in @value.setter
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     @property
     def value(self):
@@ -2956,7 +3084,7 @@ class BaseModelValue(object):
 
     @as_native_str()
     def __repr__(self):
-        return u"<BaseModelValue name='{}' value='{}' {}>".format(
+        return "<BaseModelValue name='{}' value='{}' {}>".format(
             self.name, self.value, self.type
         )
 
@@ -2977,6 +3105,11 @@ class LinkedModelValue(BaseNode):
         self.target_record_id = target_record
         self.type = link_type
         self.id = id
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     @classmethod
     def from_dict(cls, data, source_model, target_model, link_type):
@@ -3019,7 +3152,7 @@ class BaseModelNode(BaseNode):
         locked=False,
         default=True,
         *args,
-        **kwargs
+        **kwargs,
     ):
         assert (
             " " not in name
@@ -3037,6 +3170,11 @@ class BaseModelNode(BaseNode):
         schema = kwargs.pop("schema", None)
         self.linked = kwargs.pop("linked", {})
 
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         super(BaseModelNode, self).__init__(*args, **kwargs)
 
         self.schema = dict()
@@ -3313,6 +3451,11 @@ class BaseRecord(BaseNode):
         self.updated_at = kwargs.pop("updatedAt", None)
         self.updated_by = kwargs.pop("updatedBy", None)
         values = kwargs.pop("values", None)
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
         super(BaseRecord, self).__init__(*args, **kwargs)
 
@@ -3381,7 +3524,7 @@ class BaseRecord(BaseNode):
 
         try:
             self.update()
-        except:
+        except BaseException:
             raise Exception("local object updated, but failed to update remotely")
 
     def as_dict(self):
@@ -3389,7 +3532,7 @@ class BaseRecord(BaseNode):
 
     @as_native_str()
     def __repr__(self):
-        return u"<BaseRecord type='{}' id='{}'>".format(self.type, self.id)
+        return "<BaseRecord type='{}' id='{}'>".format(self.type, self.id)
 
 
 class ModelTemplate(BaseNode):
@@ -3406,7 +3549,7 @@ class ModelTemplate(BaseNode):
         description=None,
         required=None,
         *args,
-        **kwargs
+        **kwargs,
     ):
         assert name is not None, "ModelTemplate name must be defined"
         assert properties is not None, "ModelTemplate properties must be defined"
@@ -3423,7 +3566,11 @@ class ModelTemplate(BaseNode):
             self.properties = ModelTemplate.properties_from_tuples(properties)
         else:
             self.properties = properties
-
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         super(ModelTemplate, self).__init__(*args, **kwargs)
 
     @classmethod
@@ -3467,7 +3614,7 @@ class ModelTemplate(BaseNode):
 
     @as_native_str()
     def __repr__(self):
-        return u"<ModelTemplate name='{}' id='{}'>".format(self.name, self.id)
+        return "<ModelTemplate name='{}' id='{}'>".format(self.name, self.id)
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3478,13 +3625,13 @@ class ModelTemplate(BaseNode):
 class ModelProperty(BaseModelProperty):
     @as_native_str()
     def __repr__(self):
-        return u"<ModelProperty name='{}' {}>".format(self.name, self.type)
+        return "<ModelProperty name='{}' {}>".format(self.name, self.type)
 
 
 class ModelValue(BaseModelValue):
     @as_native_str()
     def __repr__(self):
-        return u"<ModelValue name='{}' value='{}' {}>".format(
+        return "<ModelValue name='{}' value='{}' {}>".format(
             self.name, self.value, self.type
         )
 
@@ -3492,6 +3639,11 @@ class ModelValue(BaseModelValue):
 class ModelSelect(object):
     def __init__(self, *join_keys):
         self.join_keys = [target_type_string(k) for k in join_keys]
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     def as_dict(self):
         return {"Concepts": {"joinKeys": self.join_keys}}
@@ -3499,7 +3651,7 @@ class ModelSelect(object):
     @as_native_str()
     def __repr__(self):
         join_keys = [target_type_string(k) for k in self.join_keys]
-        return u"<ModelSelect join_keys='{}'>".format(",".join(join_keys))
+        return "<ModelSelect join_keys='{}'>".format(",".join(join_keys))
 
 
 class ModelFilter(object):
@@ -3507,6 +3659,11 @@ class ModelFilter(object):
         self.key = key
         self.operator = operator
         self.value = value
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     def as_dict(self):
         return {
@@ -3516,7 +3673,7 @@ class ModelFilter(object):
 
     @as_native_str()
     def __repr__(self):
-        return u"<ModelFilter key='{}' operator='{}' value='{}'>".format(
+        return "<ModelFilter key='{}' operator='{}' value='{}'>".format(
             self.key, self.operator, self.value
         )
 
@@ -3527,6 +3684,11 @@ class ModelJoin(object):
         self.filters = [
             ModelFilter(*f) if not isinstance(f, ModelFilter) else f for f in filters
         ]
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     def as_dict(self):
         key = target_type_string(self.target)
@@ -3538,7 +3700,7 @@ class ModelJoin(object):
 
     @as_native_str()
     def __repr__(self):
-        return u"<ModelJoin targetType='{}' filter='{}', key='{}'>".format(
+        return "<ModelJoin targetType='{}' filter='{}', key='{}'>".format(
             target_type_string(self.target), self.filters, self.key
         )
 
@@ -3559,12 +3721,17 @@ class Model(BaseModelNode):
         description=None,
         locked=False,
         *args,
-        **kwargs
+        **kwargs,
     ):
         self.count = kwargs.pop("count", None)
         self.state = kwargs.pop("state", None)
 
         self._logger = log.get_logger("pennsieve.models.Model")
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
         super(Model, self).__init__(
             dataset_id, name, display_name, description, locked, *args, **kwargs
@@ -3781,7 +3948,7 @@ class Model(BaseModelNode):
 
     @as_native_str()
     def __repr__(self):
-        return u"<Model type='{}' id='{}'>".format(self.type, self.id)
+        return "<Model type='{}' id='{}'>".format(self.type, self.id)
 
 
 class Record(BaseRecord):
@@ -4004,7 +4171,7 @@ class Record(BaseRecord):
         # Then assume link is a linked property name:
         try:
             prop_id = self.model.get_linked_property(link).id
-        except:
+        except BaseException:
             raise Exception(
                 "No link found with a name or ID matching '{}'".format(link)
             )
@@ -4084,7 +4251,7 @@ class Record(BaseRecord):
 
     @as_native_str()
     def __repr__(self):
-        return u"<Record type='{}' id='{}'>".format(self.type, self.id)
+        return "<Record type='{}' id='{}'>".format(self.type, self.id)
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4097,6 +4264,11 @@ class QueryResult(object):
         self.dataset_id = dataset_id
         self._target = target
         self._joined = joined
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     @property
     def target(self):
@@ -4171,7 +4343,7 @@ class QueryResult(object):
 
     @as_native_str()
     def __repr__(self):
-        return u"<QueryResult dataset='{}' target='{}'>".format(
+        return "<QueryResult dataset='{}' target='{}'>".format(
             self.dataset_id, self._target.id
         )
 
@@ -4184,13 +4356,13 @@ class QueryResult(object):
 class RelationshipProperty(BaseModelProperty):
     @as_native_str()
     def __repr__(self):
-        return u"<RelationshipProperty name='{}' {}>".format(self.name, self.type)
+        return "<RelationshipProperty name='{}' {}>".format(self.name, self.type)
 
 
 class RelationshipValue(BaseModelValue):
     @as_native_str()
     def __repr__(self):
-        return u"<RelationshipValue name='{}' value='{}' {}>".format(
+        return "<RelationshipValue name='{}' value='{}' {}>".format(
             self.name, self.value, self.type
         )
 
@@ -4213,11 +4385,17 @@ class RelationshipType(BaseModelNode):
         source=None,
         destination=None,
         *args,
-        **kwargs
+        **kwargs,
     ):
         kwargs.pop("type", None)
         self.destination = destination
         self.source = source
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+
         super(RelationshipType, self).__init__(
             dataset_id, name, display_name, description, locked, *args, **kwargs
         )
@@ -4392,7 +4570,7 @@ class RelationshipType(BaseModelNode):
 
     @as_native_str()
     def __repr__(self):
-        return u"<RelationshipType type='{}' id='{}'>".format(self.type, self.id)
+        return "<RelationshipType type='{}' id='{}'>".format(self.type, self.id)
 
 
 class Relationship(BaseRecord):
@@ -4419,6 +4597,11 @@ class Relationship(BaseRecord):
         self.destination = destination
 
         kwargs.pop("schemaRelationshipId", None)
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         super(Relationship, self).__init__(dataset_id, type, *args, **kwargs)
 
     def relationship(self):
@@ -4465,7 +4648,7 @@ class Relationship(BaseRecord):
 
     @as_native_str()
     def __repr__(self):
-        return u"<Relationship type='{}' id='{}' source='{}' destination='{}'>".format(
+        return "<Relationship type='{}' id='{}' source='{}' destination='{}'>".format(
             self.type, self.id, self.source, self.destination
         )
 
@@ -4479,6 +4662,11 @@ class ProxyInstance(BaseRecord):
     _object_key = ""
 
     def __init__(self, dataset_id, type, *args, **kwargs):
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         super(ProxyInstance, self).__init__(dataset_id, type, *args, **kwargs)
 
     def item(self):
@@ -4496,7 +4684,7 @@ class ProxyInstance(BaseRecord):
 
     @as_native_str()
     def __repr__(self):
-        return u"<ProxyInstance type='{}' id='{}'>".format(self.type, self.id)
+        return "<ProxyInstance type='{}' id='{}'>".format(self.type, self.id)
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4508,6 +4696,11 @@ class BaseInstanceList(list):
     _accept_type = None
 
     def __init__(self, type, *args, **kwargs):
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         super(BaseInstanceList, self).__init__(*args, **kwargs)
         assert isinstance(type, self._accept_type), "type must be type {}".format(
             self._accept_type

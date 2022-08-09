@@ -66,9 +66,9 @@ source_suffix = [".rst", ".md"]
 master_doc = "index"
 
 # General information about the project.
-project = u"Pennsieve"
-copyright = u"Pennsieve, Inc."
-author = u"support@pennsieve.com"
+project = "Pennsieve"
+copyright = "Pennsieve, Inc."
+author = "support@pennsieve.com"
 
 show_sphinx = False
 show_copyright = False
@@ -163,10 +163,10 @@ latex_documents = [
     (
         master_doc,
         "Pennsieve.tex",
-        u"Pennsieve Documentation",
-        u"support@pennsieve.com",
+        "Pennsieve Documentation",
+        "support@pennsieve.com",
         "manual",
-    ),
+    )
 ]
 
 
@@ -175,7 +175,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, "pennsieve", u"Pennsieve Python Client Documentation", [author], 1)
+    (master_doc, "pennsieve", "Pennsieve Python Client Documentation", [author], 1)
 ]
 
 
@@ -188,10 +188,10 @@ texinfo_documents = [
     (
         master_doc,
         "Pennsieve",
-        u"Pennsieve Python Client Documentation",
+        "Pennsieve Python Client Documentation",
         author,
         "Pennsieve",
         "Python client for accessing Pennsieve platform",
         "Utilities",
-    ),
+    )
 ]

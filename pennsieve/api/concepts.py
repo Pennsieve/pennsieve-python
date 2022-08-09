@@ -4,6 +4,7 @@ from future.utils import string_types
 
 import itertools
 import json
+from warnings import warn
 
 import requests
 
@@ -72,6 +73,11 @@ class ModelsAPI(ModelsAPIBase):
         self.relationships = ModelRelationshipsAPI(session)
         self.proxies = ModelProxiesAPI(session)
         self.query = ModelQueryAPI(session)
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         super(ModelsAPI, self).__init__(session)
 
     def get_properties(self, dataset, concept):
@@ -304,7 +310,7 @@ class ModelsAPI(ModelsAPIBase):
         return [DataPackage.from_dict(pkg, api=self.session) for r, pkg in resp]
 
     def get_connected(self, dataset, model):
-        """ Return a list of concepts related to the given model """
+        """Return a list of concepts related to the given model"""
         dataset_id = self._get_id(dataset)
         model_id = self._get_id(model)
         resp = self._get(
@@ -324,7 +330,7 @@ class ModelsAPI(ModelsAPIBase):
         return {c.type: c for c in concepts}
 
     def get_related(self, dataset, concept):
-        """ Return all SchemaRelationships and the Concepts they point to """
+        """Return all SchemaRelationships and the Concepts they point to"""
         dataset_id = self._get_id(dataset)
         concept_id = self._get_id(concept)
         resp = self._get(
@@ -688,6 +694,11 @@ class ModelRelationshipsAPI(ModelsAPIBase):
 
     def __init__(self, session):
         self.instances = ModelRelationshipInstancesAPI(session)
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         super(ModelRelationshipsAPI, self).__init__(session)
 
     def create(self, dataset, relationship):
@@ -942,6 +953,11 @@ class ModelQuery(object):
         self._joins = []
         self._offset = 0
         self._limit = 50
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     def select(self, *join_keys):
         """

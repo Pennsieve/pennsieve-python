@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, division, print_function
 
+from warnings import warn
+
 from pennsieve.api.base import APIBase
 from pennsieve.models import (
     BaseDataNode,
@@ -30,6 +32,11 @@ class CoreAPI(APIBase):
     name = "core"
 
     def __init__(self, *args, **kwargs):
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         super(CoreAPI, self).__init__(*args, **kwargs)
         self._data_registry = {}
 

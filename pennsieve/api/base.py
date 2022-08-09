@@ -2,6 +2,8 @@ from __future__ import absolute_import, division, print_function
 from future import standard_library
 from future.utils import integer_types, string_types
 
+from warnings import warn
+
 from pennsieve import log
 from pennsieve.models import get_package_class
 
@@ -26,6 +28,11 @@ class APIBase(object):
         # api session
         self.session = session
         self._logger = log.get_logger("pennsieve.api")
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     def _get_id(self, thing):
         """

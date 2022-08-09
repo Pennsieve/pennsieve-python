@@ -5,6 +5,7 @@ from future.utils import raise_from
 
 import base64
 import json
+from warnings import warn
 
 import boto3
 import requests
@@ -33,6 +34,11 @@ class PennsieveRequest(object):
         self._response = None
 
         self._logger = log.get_logger("pennsieve.base.PennsieveRequest")
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     def raise_for_status(self, resp):
         try:
@@ -45,17 +51,17 @@ class PennsieveRequest(object):
         return
 
     def _handle_response(self, resp):
-        self._logger.debug(u"resp = {}".format(resp))
-        self._logger.debug(u"resp.content = {}".format(resp.text))  # decoded unicode
+        self._logger.debug("resp = {}".format(resp))
+        self._logger.debug("resp.content = {}".format(resp.text))  # decoded unicode
         if resp.status_code in [requests.codes.forbidden, requests.codes.unauthorized]:
             raise UnauthorizedException()
 
-        if not resp.status_code in [requests.codes.ok, requests.codes.created]:
+        if resp.status_code not in [requests.codes.ok, requests.codes.created]:
             self.raise_for_status(resp)
         try:
             # return object from json
             resp.data = json.loads(resp.text)
-        except:
+        except BaseException:
             # if not json, still return response content
             resp.data = resp.text
 
@@ -83,6 +89,11 @@ class ClientSession(object):
         self._organization = None
         self.profile = None
         self.settings = settings
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     def authenticate(self, organization=None):
         """

@@ -5,6 +5,8 @@ from __future__ import absolute_import, division, print_function
 from builtins import object
 from future.utils import as_native_str
 
+from warnings import warn
+
 from . import log
 from .api.concepts import (
     ModelRelationshipInstancesAPI,
@@ -86,7 +88,7 @@ class Pennsieve(object):
         host=None,
         model_service_host=None,
         env_override=True,
-        **overrides
+        **overrides,
     ):
 
         self._logger = log.get_logger("pennsieve.client.Pennsieve")
@@ -136,6 +138,11 @@ class Pennsieve(object):
         )
 
         self._api._context = self._api.organizations.get(self._api._organization)
+        warn(
+            f"Pennsieve is transitioning to the new agent. This class '{self.__class__.__name__}' will be deprecated and API will significantly change; version=7.0.0; date=2022-11-01.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     @property
     def context(self):
@@ -176,7 +183,7 @@ class Pennsieve(object):
         """
         try:
             return self._api.core.get(id, update=update)
-        except:
+        except BaseException:
             self._logger.info(
                 "Unable to retrieve object"
                 "\n\nAcceptable objects for get() are:"
@@ -233,7 +240,7 @@ class Pennsieve(object):
         """
         try:
             return self._api.datasets.get(name_or_id)
-        except:
+        except BaseException:
             pass
 
         result = self._api.datasets.get_by_name_or_id(name_or_id)

@@ -26,12 +26,7 @@ INNER_DIR = "inner_dir"
 
 
 @pytest.mark.agent
-@pytest.mark.parametrize(
-    "upload_args,n_files",
-    [
-        ([FILE4], 1),
-    ],
-)  # Single file
+@pytest.mark.parametrize("upload_args,n_files", [([FILE4], 1)])  # Single file
 def test_get_by_filename(dataset, upload_args, n_files):
 
     dataset.upload(*upload_args)
@@ -52,10 +47,7 @@ def test_get_by_filename(dataset, upload_args, n_files):
 @pytest.mark.agent
 @pytest.mark.parametrize(
     "upload_args,n_files",
-    [
-        ([FILE1], 1),
-        ([[FILE1, FILE2]], 2),
-    ],  # Single file  # Multiple files
+    [([FILE1], 1), ([[FILE1, FILE2]], 2)],  # Single file  # Multiple files
 )
 def test_upload_to_collection(dataset, upload_args, n_files):
     collection = dataset.create_collection(str(uuid.uuid4()))
@@ -67,11 +59,7 @@ def test_upload_to_collection(dataset, upload_args, n_files):
 @pytest.mark.agent
 @pytest.mark.parametrize(
     "upload_args, n_files",
-    [
-        ([FLAT_DIR], 3),
-        ([NESTED_DIR], 1),
-        ([NESTED_DIR + "/" + INNER_DIR], 2),
-    ],
+    [([FLAT_DIR], 3), ([NESTED_DIR], 1), ([NESTED_DIR + "/" + INNER_DIR], 2)],
 )
 def test_upload_directory(dataset, upload_args, n_files):
     collection = dataset.create_collection(str(uuid.uuid4()))
